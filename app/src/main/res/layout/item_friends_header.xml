@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/iv_friends_item_header"
+        android:background="@mipmap/header"
+        android:layout_width="match_parent"
+        android:layout_height="130dp" />
+
+    <TextView
+        android:text="Emmanuel"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="110dp"
+        android:layout_marginTop="100dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:id="@+id/friends_item_iv_myphoto"
+        android:src="@mipmap/myphoto"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="90dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp" />
+
+</RelativeLayout>

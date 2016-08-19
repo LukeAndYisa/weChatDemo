@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">weChatDemo</string>
+
+    <string name="send">发送</string>
+    <string name="edittext_input_hint">说啥类...</string>
+
+    <string name="load_more">加载更多...</string>
+</resources>

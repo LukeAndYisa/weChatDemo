@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:background="@drawable/bg_comment_popup_windows"
+    android:gravity="center"
+    android:layout_width="120dp"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/pop_win_layout_zan"
+        android:orientation="horizontal"
+        android:layout_width="0dp"
+        android:gravity="center"
+        android:layout_weight="1"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:src="@mipmap/icon_zan_small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:text="赞"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:layout_marginLeft="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/pop_win_layout_comment"
+        android:orientation="horizontal"
+        android:layout_width="0dp"
+        android:gravity="center"
+        android:layout_weight="1"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:src="@mipmap/icon_comment_gray"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:text="评论"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:layout_marginLeft="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+</LinearLayout>
