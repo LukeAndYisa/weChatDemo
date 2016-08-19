@@ -74,12 +74,7 @@ public class ImageGridView extends LinearLayout {
             throw new IllegalArgumentException("list is null");
         }
         picList = list;
-        if(width > 0){
-            pxMoreWandH = (MAX_WIDTH - pxImagePadding*2 )/3; //解决右侧图片和内容对不齐问题
-            pxOneMaxWandH = MAX_WIDTH * 2 / 3;
-            initImageLayoutParams();
-        }
-        initView();
+
     }
 
     private void initImageLayoutParams() {
