@@ -4,16 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
+    <com.emmanuel.wechatdemo.view.ColorFilterImageView
         android:id="@+id/iv_picture"
         android:maxWidth="120dp"
         android:maxHeight="200dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <GridView
-        android:id="@+id/gr_picture"
-        android:numColumns="3"
+    <com.emmanuel.wechatdemo.view.MultiImageView
+        android:id="@+id/miv_picture"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

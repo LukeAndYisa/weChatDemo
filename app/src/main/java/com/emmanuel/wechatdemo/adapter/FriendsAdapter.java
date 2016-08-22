@@ -16,7 +16,9 @@ import com.emmanuel.wechatdemo.R;
 import com.emmanuel.wechatdemo.bean.Comment;
 import com.emmanuel.wechatdemo.bean.ShuoShuo;
 import com.emmanuel.wechatdemo.util.ImageLoadUtil;
+import com.emmanuel.wechatdemo.view.ColorFilterImageView;
 import com.emmanuel.wechatdemo.view.CommentPopupWindows;
+import com.emmanuel.wechatdemo.view.MultiImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.List;
@@ -101,8 +103,17 @@ public class FriendsAdapter extends BaseRecycleViewAdapter {
             if(getItemViewType(position) == TYPE_CONTENT_PICTURE){
                 if(shuoShuo.picList != null){
                     if(shuoShuo.picList.size() > 0){
-                        ImageLoader.getInstance().displayImage(shuoShuo.picList.get(0),
+                        if(shuoShuo.picList.size() == 1){
+                            viewHolder.viewStubIvPic.setVisibility(View.VISIBLE);
+                            viewHolder.viewStubMiv.setVisibility(View.GONE);
+                            viewHolder.viewStubIvPic.setOnClickListener(onClickListener);
+                            ImageLoader.getInstance().displayImage(shuoShuo.picList.get(0),
                                 viewHolder.viewStubIvPic, ImageLoadUtil.getOptions1());
+                        } else{
+                            viewHolder.viewStubIvPic.setVisibility(View.GONE);
+                            viewHolder.viewStubMiv.setVisibility(View.VISIBLE);
+                            ((SSViewHolder) holder).viewStubMiv.setList(shuoShuo.picList);
+                        }
                     }
                 }
             }
@@ -138,7 +149,7 @@ public class FriendsAdapter extends BaseRecycleViewAdapter {
         public ImageView ivHeader;
 
         public ImageView viewStubIvPic;
-        public GridView viewStubGv;
+        public MultiImageView viewStubMiv;
 
         public SSViewHolder(View itemView, int itemType) {
             super(itemView);
@@ -161,8 +172,8 @@ public class FriendsAdapter extends BaseRecycleViewAdapter {
                 if(itemType == TYPE_CONTENT_PICTURE){
                     viewStub.setLayoutResource(R.layout.view_stub_picture);
                     viewStub.inflate();
-                    viewStubGv = (GridView)itemView.findViewById(R.id.gr_picture);
-                    viewStubIvPic = (ImageView)itemView.findViewById(R.id.iv_picture);
+                    viewStubMiv = (MultiImageView) itemView.findViewById(R.id.miv_picture);
+                    viewStubIvPic = (ColorFilterImageView)itemView.findViewById(R.id.iv_picture);
                 }
             }
 
@@ -175,6 +186,8 @@ public class FriendsAdapter extends BaseRecycleViewAdapter {
             switch (view.getId()){
                 case R.id.btn_comment:
                     popupWindow.showLeft(view);
+                    break;
+                case R.id.iv_picture:
                     break;
             }
         }
