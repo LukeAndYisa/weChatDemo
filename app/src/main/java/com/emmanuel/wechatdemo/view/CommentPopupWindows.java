@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.PopupWindow;
 
 import com.emmanuel.wechatdemo.R;
+import com.emmanuel.wechatdemo.adapter.FriendsAdapter;
 import com.emmanuel.wechatdemo.util.DensityUtil;
 import com.emmanuel.wechatdemo.util.ToastUtil;
 

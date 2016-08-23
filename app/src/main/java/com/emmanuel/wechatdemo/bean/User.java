@@ -6,7 +6,7 @@ package com.emmanuel.wechatdemo.bean;
 public class User {
 
     public String name;
-    public String age;
+    public int age;
     public String photoUrl;
     public String sex;
     public String signature;

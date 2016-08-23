@@ -16,6 +16,7 @@ import com.emmanuel.wechatdemo.R;
 import com.emmanuel.wechatdemo.bean.Comment;
 import com.emmanuel.wechatdemo.bean.ShuoShuo;
 import com.emmanuel.wechatdemo.util.ImageLoadUtil;
+import com.emmanuel.wechatdemo.util.UserUtil;
 import com.emmanuel.wechatdemo.view.ColorFilterImageView;
 import com.emmanuel.wechatdemo.view.CommentPopupWindows;
 import com.emmanuel.wechatdemo.view.MultiImageView;
@@ -30,9 +31,9 @@ public class FriendsAdapter extends BaseRecycleViewAdapter {
 
     private final int TYPE_HEAD = 101;
     private final int TYPE_FOOTER = 102;
-    private final int TYPE_CONTENT_NORMAL = 1002;
-    private final int TYPE_CONTENT_PICTURE = 1003;
-    private final int TYPE_CONTENT_VIDEO = 1004;
+    private final int TYPE_CONTENT_NORMAL = 1002; //普通说说
+    private final int TYPE_CONTENT_PICTURE = 1003; //带图片说说
+    private final int TYPE_CONTENT_VIDEO = 1004; //带视频说说
 
     private Context context;
     public CommentPopupWindows popupWindow;
@@ -106,7 +107,7 @@ public class FriendsAdapter extends BaseRecycleViewAdapter {
                         if(shuoShuo.picList.size() == 1){
                             viewHolder.viewStubIvPic.setVisibility(View.VISIBLE);
                             viewHolder.viewStubMiv.setVisibility(View.GONE);
-                            viewHolder.viewStubIvPic.setOnClickListener(onClickListener);
+                            viewHolder.viewStubIvPic.setOnClickListener(new OnViewClickListener(viewHolder));
                             ImageLoader.getInstance().displayImage(shuoShuo.picList.get(0),
                                 viewHolder.viewStubIvPic, ImageLoadUtil.getOptions1());
                         } else{
@@ -167,7 +168,7 @@ public class FriendsAdapter extends BaseRecycleViewAdapter {
                 tvZans = (TextView) itemView.findViewById(R.id.tv_zans);
                 layoutComment = (LinearLayout) itemView.findViewById(R.id.layout_comment);
                 ivComment = (ImageView) itemView.findViewById(R.id.btn_comment);
-                ivComment.setOnClickListener(onClickListener);
+                ivComment.setOnClickListener(new OnViewClickListener(null));
                 viewStub = (ViewStub)itemView.findViewById(R.id.viewStub);
                 if(itemType == TYPE_CONTENT_PICTURE){
                     viewStub.setLayoutResource(R.layout.view_stub_picture);
@@ -180,7 +181,14 @@ public class FriendsAdapter extends BaseRecycleViewAdapter {
         }
     }
 
-    private View.OnClickListener onClickListener = new View.OnClickListener() {
+    public class OnViewClickListener implements View.OnClickListener{
+
+        private SSViewHolder viewHolder;
+
+        public OnViewClickListener(SSViewHolder viewHolder){
+            this.viewHolder = viewHolder;
+        }
+
         @Override
         public void onClick(View view) {
             switch (view.getId()){
@@ -191,5 +199,5 @@ public class FriendsAdapter extends BaseRecycleViewAdapter {
                     break;
             }
         }
-    };
+    }
 }

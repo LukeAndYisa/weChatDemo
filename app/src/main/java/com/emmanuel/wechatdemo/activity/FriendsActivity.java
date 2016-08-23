@@ -5,13 +5,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.View;
-import android.widget.LinearLayout;
 
 import com.emmanuel.wechatdemo.R;
 import com.emmanuel.wechatdemo.adapter.FriendsAdapter;
-import com.emmanuel.wechatdemo.bean.Comment;
 import com.emmanuel.wechatdemo.bean.ShuoShuo;
 import com.emmanuel.wechatdemo.util.DataFactory;
 import com.emmanuel.wechatdemo.view.DividerItemDecoration;
@@ -33,6 +29,7 @@ public class FriendsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friends);
+
         initView();
         updata();
     }

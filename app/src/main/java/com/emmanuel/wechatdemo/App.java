@@ -2,6 +2,8 @@ package com.emmanuel.wechatdemo;
 
 import android.app.Application;
 
+import com.emmanuel.wechatdemo.bean.User;
+import com.emmanuel.wechatdemo.util.UserUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
@@ -24,5 +26,19 @@ public class App extends Application {
         ImageLoaderConfiguration configuration = ImageLoaderConfiguration.createDefault(this);
         //Initialize ImageLoader with configuration.
         ImageLoader.getInstance().init(configuration);
+
+        initUserInfo();
+    }
+
+    private void initUserInfo() {
+        User user = new User();
+        user.name = "Emmanuel";
+        user.sex = "男";
+        user.signature = "zhang显个性, xu势待发";
+        user.age = 24;
+
+        UserUtil.getInstance(this).getString(UserUtil.KEY_NAME, user.name);
+        UserUtil.getInstance(this).getString(UserUtil.KEY_SEX, user.sex);
+        UserUtil.getInstance(this).getString(UserUtil.KEY_SIGNATURE, user.signature);
     }
 }
