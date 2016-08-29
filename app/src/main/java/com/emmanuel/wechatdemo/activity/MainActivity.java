@@ -48,16 +48,16 @@ public class MainActivity extends BaseActivity {
         if(fragment == null){
             switch (position){
                 case 0:
-                    fragment = new FriendsFragment() ;
+                    fragment = new FindFragment() ;
                     break ;
                 case 1:
-                    fragment = new FriendsFragment();
+                    fragment = new FindFragment();
                     break ;
                 case 2:
-                    fragment = new FriendsFragment();
+                    fragment = new FindFragment();
                     break;
                 case 3:
-                    fragment = new FriendsFragment() ;
+                    fragment = new FindFragment() ;
                     break;
             }
             mFragmentMap.put(position,fragment) ;

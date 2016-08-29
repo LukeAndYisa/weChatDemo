@@ -61,6 +61,9 @@ public class FriendsAdapter extends BaseRecycleViewAdapter {
                     }
                     break;
                 case R.id.pop_win_layout_comment:
+                    if(itemListener != null){
+                        itemListener.onCommentClick(currentPosition);
+                    }
                     break;
             }
         }

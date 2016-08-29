@@ -5,4 +5,7 @@ package com.emmanuel.wechatdemo.adapter;
  */
 public interface RecycleViewItemListener {
     void onItemClick(int position);
+
+    void onCommentClick(int position);
+
 }

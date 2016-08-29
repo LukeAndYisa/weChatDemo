@@ -13,5 +13,7 @@
     <color name="text_color_blue_deep">#0277bd</color>
     <color name="text_color_gray_deep">#434343</color>
     <color name="text_color_gray_light">#e2e2e2</color>
+    
+    <color name="color_keyboard_bg">#fffefefe</color>
 
 </resources>
