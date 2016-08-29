@@ -10,4 +10,9 @@
 
     </style>
 
+    <style name="PopupWindowAnim" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/pop_win_show</item>
+        <item name="android:windowExitAnimation">@anim/pop_win_dismiss</item>
+    </style>
+
 </resources>

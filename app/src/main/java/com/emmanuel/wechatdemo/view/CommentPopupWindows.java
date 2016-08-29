@@ -38,6 +38,7 @@ public class CommentPopupWindows extends PopupWindow {
         view.findViewById(R.id.pop_win_layout_zan).setOnClickListener(onClickListener);
         view.findViewById(R.id.pop_win_layout_comment).setOnClickListener(onClickListener);
         tvZan = (TextView)view.findViewById(R.id.pop_win_tv_zan);
+        this.setAnimationStyle(R.style.PopupWindowAnim);
     }
 
     public void showLeft(View v){
