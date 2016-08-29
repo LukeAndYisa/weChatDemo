@@ -6,6 +6,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import com.emmanuel.wechatdemo.R;
 import com.emmanuel.wechatdemo.adapter.FriendsAdapter;
@@ -19,6 +20,8 @@ public class CommentPopupWindows extends PopupWindow {
 
     private Context context;
     private CommentPopupWindows commentPopupWindows;
+    private PopupwindowClickListener popupwindowClickListener;
+    private TextView tvZan;
 
     public CommentPopupWindows(Context context){
         this.context = context;
@@ -34,6 +37,7 @@ public class CommentPopupWindows extends PopupWindow {
 
         view.findViewById(R.id.pop_win_layout_zan).setOnClickListener(onClickListener);
         view.findViewById(R.id.pop_win_layout_comment).setOnClickListener(onClickListener);
+        tvZan = (TextView)view.findViewById(R.id.pop_win_tv_zan);
     }
 
     public void showLeft(View v){
@@ -47,15 +51,35 @@ public class CommentPopupWindows extends PopupWindow {
         public void onClick(View view) {
             switch (view.getId()){
                 case R.id.pop_win_layout_zan:
-                    ToastUtil.showMessage("赞", 3, false);
                     commentPopupWindows.dismiss();
+                    if(popupwindowClickListener != null){
+                        popupwindowClickListener.onClick(view.getId());
+                    }
                     break;
                 case R.id.pop_win_layout_comment:
-                    ToastUtil.showMessage("评论", 3, false);
                     commentPopupWindows.dismiss();
+                    if(popupwindowClickListener != null){
+                        popupwindowClickListener.onClick(view.getId());
+                    }
                     break;
             }
         }
     };
+
+    public void setZanFlag(boolean isZan){
+        if(isZan){
+            tvZan.setText("取消赞");
+        }else{
+            tvZan.setText("赞");
+        }
+    }
+
+    public void setPopupwindowClickListener(PopupwindowClickListener listener){
+        this.popupwindowClickListener = listener;
+    }
+
+    public interface PopupwindowClickListener{
+        public void onClick(int id);
+    }
 
 }

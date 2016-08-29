@@ -14,5 +14,6 @@ public class ShuoShuo {
     public List<String>zanList; //点赞的人的列表
     public List<String>picList; //照片
     public List<Comment>commentList; //评论
+    public boolean hasZan = false; //
 
 }

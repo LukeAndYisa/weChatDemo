@@ -23,12 +23,14 @@ import java.util.Map;
  */
 public class MainActivity extends BaseActivity {
 
+    private final String TAG = "MainActivity";
+
     private String[] mTitle = {"微信", "通讯录", "发现", "我"};
-    private int[] mIconSelect = {R.mipmap.icon_chat_green, R.mipmap.icon_contacts_green, R.mipmap.icon_find_green, R.mipmap.icon_me_green};
-    private int[] mIconNormal = {R.mipmap.icon_chat_white, R.mipmap.icon_contacts_white, R.mipmap.icon_find_white, R.mipmap.icon_me_white};
     private ViewPager mViewPager ;
     private TabLayout mTabView ;
     private Map<Integer, Fragment> mFragmentMap ;
+    private int[] mIconSelect = {R.mipmap.icon_chat_green, R.mipmap.icon_contacts_green, R.mipmap.icon_find_green, R.mipmap.icon_me_green};
+    private int[] mIconNormal = {R.mipmap.icon_chat_white, R.mipmap.icon_contacts_white, R.mipmap.icon_find_white, R.mipmap.icon_me_white};
 
     @Override
     protected void initView(Bundle savedInstanceState) {

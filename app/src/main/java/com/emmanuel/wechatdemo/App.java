@@ -37,8 +37,8 @@ public class App extends Application {
         user.signature = "zhang显个性, xu势待发";
         user.age = 24;
 
-        UserUtil.getInstance(this).getString(UserUtil.KEY_NAME, user.name);
-        UserUtil.getInstance(this).getString(UserUtil.KEY_SEX, user.sex);
-        UserUtil.getInstance(this).getString(UserUtil.KEY_SIGNATURE, user.signature);
+        UserUtil.getInstance(this).putString(UserUtil.KEY_NAME, user.name);
+        UserUtil.getInstance(this).putString(UserUtil.KEY_SEX, user.sex);
+        UserUtil.getInstance(this).putString(UserUtil.KEY_SIGNATURE, user.signature);
     }
 }

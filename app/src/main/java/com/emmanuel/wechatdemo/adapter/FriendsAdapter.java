@@ -36,7 +36,35 @@ public class FriendsAdapter extends BaseRecycleViewAdapter {
     private final int TYPE_CONTENT_VIDEO = 1004; //带视频说说
 
     private Context context;
-    public CommentPopupWindows popupWindow;
+    private CommentPopupWindows popupWindow;
+    private SSViewHolder ssViewHolder;
+    private int currentPosition = -1;
+
+    private CommentPopupWindows.PopupwindowClickListener onClickListener = new CommentPopupWindows.PopupwindowClickListener() {
+        @Override
+        public void onClick(int id) {
+            switch (id){
+                case R.id.pop_win_layout_zan:
+                    if(currentPosition>=0 && currentPosition < datas.size()){
+                        ShuoShuo ss = (ShuoShuo)datas.get(currentPosition);
+                        if(!ss.hasZan) {
+                            String name = UserUtil.getInstance(context).getString(UserUtil.KEY_NAME, "");
+                            ss.zanList.add(name);
+                            notifyDataSetChanged();
+                            ss.hasZan = true;
+                        } else {
+                            String name = UserUtil.getInstance(context).getString(UserUtil.KEY_NAME, "");
+                            ss.zanList.remove(name);
+                            notifyDataSetChanged();
+                            ss.hasZan = false;
+                        }
+                    }
+                    break;
+                case R.id.pop_win_layout_comment:
+                    break;
+            }
+        }
+    };
 
     public FriendsAdapter(Context context){
         this.context = context;
@@ -71,6 +99,7 @@ public class FriendsAdapter extends BaseRecycleViewAdapter {
         }
         SSViewHolder viewHolder = new SSViewHolder(view, viewType);
         popupWindow = new CommentPopupWindows(context);
+        popupWindow.setPopupwindowClickListener(onClickListener);
         return viewHolder;
     }
 
@@ -87,6 +116,7 @@ public class FriendsAdapter extends BaseRecycleViewAdapter {
             viewHolder.tvName.setText(shuoShuo.user.name);
             viewHolder.tvContent.setText(shuoShuo.content);
             ImageLoader.getInstance().displayImage(shuoShuo.user.photoUrl, viewHolder.ivPhoto, ImageLoadUtil.getOptions2());
+            viewHolder.ivComment.setOnClickListener(new OnViewClickListener(null, dataIndex));
             if (shuoShuo.zanList == null || shuoShuo.zanList.size() <= 0) {
                 viewHolder.layoutZans.setVisibility(View.GONE);
                 if (shuoShuo.commentList == null || shuoShuo.commentList.size() <= 0) {
@@ -107,7 +137,7 @@ public class FriendsAdapter extends BaseRecycleViewAdapter {
                         if(shuoShuo.picList.size() == 1){
                             viewHolder.viewStubIvPic.setVisibility(View.VISIBLE);
                             viewHolder.viewStubMiv.setVisibility(View.GONE);
-                            viewHolder.viewStubIvPic.setOnClickListener(new OnViewClickListener(viewHolder));
+                            viewHolder.viewStubIvPic.setOnClickListener(new OnViewClickListener(viewHolder, position));
                             ImageLoader.getInstance().displayImage(shuoShuo.picList.get(0),
                                 viewHolder.viewStubIvPic, ImageLoadUtil.getOptions1());
                         } else{
@@ -124,7 +154,7 @@ public class FriendsAdapter extends BaseRecycleViewAdapter {
     private String getZansText(List<String>zans){
         StringBuilder str = new StringBuilder("");
         for(int i=0;i<zans.size();i++){
-            str.append(zans.get(0));
+            str.append(zans.get(i));
             if(i+1 < zans.size()){
                 str.append('，');
             }
@@ -168,7 +198,6 @@ public class FriendsAdapter extends BaseRecycleViewAdapter {
                 tvZans = (TextView) itemView.findViewById(R.id.tv_zans);
                 layoutComment = (LinearLayout) itemView.findViewById(R.id.layout_comment);
                 ivComment = (ImageView) itemView.findViewById(R.id.btn_comment);
-                ivComment.setOnClickListener(new OnViewClickListener(null));
                 viewStub = (ViewStub)itemView.findViewById(R.id.viewStub);
                 if(itemType == TYPE_CONTENT_PICTURE){
                     viewStub.setLayoutResource(R.layout.view_stub_picture);
@@ -184,15 +213,21 @@ public class FriendsAdapter extends BaseRecycleViewAdapter {
     public class OnViewClickListener implements View.OnClickListener{
 
         private SSViewHolder viewHolder;
+        private int pos;
 
-        public OnViewClickListener(SSViewHolder viewHolder){
+        public OnViewClickListener(SSViewHolder viewHolder, int position){
             this.viewHolder = viewHolder;
+            this.pos = position;
         }
 
         @Override
         public void onClick(View view) {
             switch (view.getId()){
                 case R.id.btn_comment:
+                    ssViewHolder = viewHolder;
+                    currentPosition = pos;
+                    ShuoShuo shuoShuo = (ShuoShuo)datas.get(currentPosition);
+                    popupWindow.setZanFlag(shuoShuo.hasZan);
                     popupWindow.showLeft(view);
                     break;
                 case R.id.iv_picture:
@@ -200,4 +235,6 @@ public class FriendsAdapter extends BaseRecycleViewAdapter {
             }
         }
     }
+
+
 }
