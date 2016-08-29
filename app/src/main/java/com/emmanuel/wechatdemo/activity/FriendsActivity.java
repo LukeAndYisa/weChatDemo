@@ -22,18 +22,21 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.emmanuel.wechatdemo.App;
 import com.emmanuel.wechatdemo.R;
 import com.emmanuel.wechatdemo.adapter.FriendsAdapter;
 import com.emmanuel.wechatdemo.adapter.RecycleViewItemListener;
+import com.emmanuel.wechatdemo.bean.Comment;
 import com.emmanuel.wechatdemo.bean.ShuoShuo;
 import com.emmanuel.wechatdemo.util.DataFactory;
 import com.emmanuel.wechatdemo.util.Helper;
+import com.emmanuel.wechatdemo.util.UserUtil;
 import com.emmanuel.wechatdemo.view.DividerItemDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FriendsActivity extends BaseActivity {
+public class FriendsActivity extends BaseActivity implements View.OnClickListener{
 
     private static final String TAG = "FriendsActivity";
     private boolean keyboardShowFlag = false;
@@ -49,6 +52,8 @@ public class FriendsActivity extends BaseActivity {
     private LinearLayout layoutInput;
     private TextView tvSend, tvVoice;
 
+    private int commentPosition = -1; //评论的说说id
+
     private RecycleViewItemListener listener = new RecycleViewItemListener() {
         @Override
         public void onItemClick(int position) {
@@ -63,6 +68,7 @@ public class FriendsActivity extends BaseActivity {
             etInput.requestFocus();
             InputMethodManager inputManager = (InputMethodManager)etInput.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
             inputManager.showSoftInput(etInput, 0);
+            commentPosition = position;
         }
     };
 
@@ -191,5 +197,21 @@ public class FriendsActivity extends BaseActivity {
     protected void onDestroy() {
         removeKeyBoardListener();
         super.onDestroy();
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.btn_send:
+                String content = etInput.getText().toString().trim();
+                if(commentPosition >=0 && commentPosition < listSS.size() && content != null && content.length() > 0){
+                    Comment comment = new Comment();
+                    comment.content = content;
+                    comment.fromUser = App.getInstance().getUser();
+                    listSS.get(commentPosition).commentList.add(new Comment());
+                    friendsAdapter.notifyDataSetChanged();
+                }
+                break;
+        }
     }
 }

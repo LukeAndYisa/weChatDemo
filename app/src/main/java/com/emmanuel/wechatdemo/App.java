@@ -13,6 +13,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 public class App extends Application {
 
     private static App instance;
+    private static User user;
 
     public static App getInstance() {
         return instance;
@@ -31,7 +32,7 @@ public class App extends Application {
     }
 
     private void initUserInfo() {
-        User user = new User();
+        user = new User();
         user.name = "Emmanuel";
         user.sex = "男";
         user.signature = "zhang显个性, xu势待发";
@@ -41,4 +42,11 @@ public class App extends Application {
         UserUtil.getInstance(this).putString(UserUtil.KEY_SEX, user.sex);
         UserUtil.getInstance(this).putString(UserUtil.KEY_SIGNATURE, user.signature);
     }
+
+    public static User getUser(){
+        if(user != null)
+            return user;
+        return null;
+    }
+
 }
