@@ -58,9 +58,18 @@ public class DataFactory {
 //            ""
     };
 
+    public static final String COMMENTS[] = {
+            "hao",
+            "haohaohaoahoaho",
+            ".....",
+            "字要多一点，多一点，多一点，多一点，多一点，多一点，多一点，多一点，多一点",
+            "en",
+            "hello"
+    };
+
     public static Random random = new Random();
 
-    public static List<ShuoShuo> createComment(int size){
+    public static List<ShuoShuo> createShuoShuo(int size){
 
         List<ShuoShuo>list = new ArrayList<>();
         for (int i=0; i<size; i++){
@@ -69,6 +78,7 @@ public class DataFactory {
             ss.content = createContent();
             ss.picList = getPicList();
             ss.zanList = getZans();
+            ss.commentList = getCommentList();
             list.add(ss);
         }
         return list;
@@ -128,6 +138,28 @@ public class DataFactory {
     private static String createContent(){
         int index = (int)(Math.random() * CONTENTS.length * 100) % CONTENTS.length;
         return CONTENTS[index];
+    }
+
+    private static List<Comment> getCommentList(){
+        List<Comment>list = new ArrayList<>();
+        int size = random.nextInt(3);
+        for(int i=0; i<size; i++){
+            list.add(getComment());
+        }
+        return list;
+    }
+
+    private static Comment getComment(){
+        Comment comment = new Comment();
+        comment.fromUser = createUser();
+        comment.content = getContent();
+        return comment;
+    }
+
+    private static String getContent(){
+        int size = COMMENTS.length;
+        int index = random.nextInt(size);
+        return COMMENTS[index];
     }
 
 }

@@ -131,7 +131,7 @@ public class FriendsAdapter extends BaseRecycleViewAdapter {
             }
             if (!(shuoShuo.commentList == null || shuoShuo.commentList.size() <= 0)) {
                 viewHolder.layoutComment.setVisibility(View.VISIBLE);
-                //添加评论。。。
+
             }
 
             if(getItemViewType(position) == TYPE_CONTENT_PICTURE){

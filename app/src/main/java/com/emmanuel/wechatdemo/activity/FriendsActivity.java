@@ -146,12 +146,12 @@ public class FriendsActivity extends BaseActivity implements View.OnClickListene
 
     private void updata(){
         listSS = new ArrayList<>();
-        listSS.addAll(DataFactory.createComment(10));//随机产生10条说说
+        listSS.addAll(DataFactory.createShuoShuo(10));//随机产生10条说说
         friendsAdapter.setDatas(listSS);
     }
 
     private void loadMore(){
-        listSS.addAll(DataFactory.createComment(10));//随机产生10条说说
+        listSS.addAll(DataFactory.createShuoShuo(10));//随机产生10条说说
         friendsAdapter.notifyDataSetChanged();
         isLoadMore = false;
     }
