@@ -174,6 +174,7 @@ public class FriendsActivity extends BaseActivity implements View.OnClickListene
                     comment.toUser = listSS.get(commentPosition).user;
                     listSS.get(commentPosition).commentList.add(comment);
                     friendsAdapter.notifyDataSetChanged();
+
                     SoftKeyBoardUtil.hideSoftKeyBoard(etInput);
                     etInput.setText("");
                     layoutInput.setVisibility(View.GONE);

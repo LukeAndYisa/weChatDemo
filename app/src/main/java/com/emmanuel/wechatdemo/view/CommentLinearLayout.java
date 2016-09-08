@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.emmanuel.wechatdemo.R;
 import com.emmanuel.wechatdemo.bean.Comment;
+import com.emmanuel.wechatdemo.util.ToastUtil;
 
 import java.util.List;
 
@@ -102,7 +103,7 @@ public class CommentLinearLayout extends LinearLayout {
 
         @Override
         public void onClick(View view) {
-
+            ToastUtil.showMessage("点击", 100, false);
         }
 
         @Override

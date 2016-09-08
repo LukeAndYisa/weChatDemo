@@ -1,19 +1,17 @@
 package com.emmanuel.wechatdemo.adapter;
 
 import android.content.Context;
-import android.provider.ContactsContract;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.emmanuel.wechatdemo.R;
-import com.emmanuel.wechatdemo.bean.Comment;
 import com.emmanuel.wechatdemo.bean.ShuoShuo;
 import com.emmanuel.wechatdemo.util.ImageLoadUtil;
 import com.emmanuel.wechatdemo.util.UserUtil;
@@ -29,6 +27,7 @@ import java.util.List;
  * Created by user on 2016/8/16.
  */
 public class FriendsAdapter extends BaseRecycleViewAdapter {
+    private static final String TAG = "FriendsAdapter";
 
     private final int TYPE_HEAD = 101;
     private final int TYPE_FOOTER = 102;
@@ -132,10 +131,15 @@ public class FriendsAdapter extends BaseRecycleViewAdapter {
             }
             if (!(shuoShuo.commentList == null || shuoShuo.commentList.size() <= 0)) {
                 viewHolder.layoutSns.setVisibility(View.VISIBLE);
+//                Log.d(TAG, "shuoShuo.commentList.size = " + shuoShuo.commentList.size());
+                viewHolder.commentLinearLayout.setVisibility(View.VISIBLE);
                 viewHolder.commentLinearLayout.setCommentList(shuoShuo.commentList);
                 if(!(shuoShuo.zanList == null || shuoShuo.zanList.size() <= 0)){
                     viewHolder.divider1.setVisibility(View.VISIBLE);
                 }
+            } else {
+                viewHolder.commentLinearLayout.setVisibility(View.GONE);
+                viewHolder.divider1.setVisibility(View.GONE);
             }
 
             if(getItemViewType(position) == TYPE_CONTENT_PICTURE){
