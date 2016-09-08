@@ -22,7 +22,7 @@
             android:id="@+id/pop_win_tv_zan"
             android:text="赞"
             android:textColor="@color/white"
-            android:textSize="16sp"
+            android:textSize="13sp"
             android:layout_marginLeft="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -44,7 +44,7 @@
         <TextView
             android:text="评论"
             android:textColor="@color/white"
-            android:textSize="16sp"
+            android:textSize="13sp"
             android:layout_marginLeft="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />

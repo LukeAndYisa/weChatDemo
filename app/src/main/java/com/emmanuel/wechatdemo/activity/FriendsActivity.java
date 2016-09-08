@@ -30,6 +30,7 @@ import com.emmanuel.wechatdemo.bean.Comment;
 import com.emmanuel.wechatdemo.bean.ShuoShuo;
 import com.emmanuel.wechatdemo.util.DataFactory;
 import com.emmanuel.wechatdemo.util.Helper;
+import com.emmanuel.wechatdemo.util.SoftKeyBoardUtil;
 import com.emmanuel.wechatdemo.util.UserUtil;
 import com.emmanuel.wechatdemo.view.DividerItemDecoration;
 
@@ -66,8 +67,7 @@ public class FriendsActivity extends BaseActivity implements View.OnClickListene
             etInput.setFocusableInTouchMode(true);
             etInput.setFocusable(true);
             etInput.requestFocus();
-            InputMethodManager inputManager = (InputMethodManager)etInput.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-            inputManager.showSoftInput(etInput, 0);
+            SoftKeyBoardUtil.showSoftKeyBoard(etInput);
             commentPosition = position;
         }
     };
@@ -111,7 +111,6 @@ public class FriendsActivity extends BaseActivity implements View.OnClickListene
             }
         });
         initKeyBoard();
-        addKeyBoardListener();
     }
 
     private void initKeyBoard() {
@@ -142,6 +141,7 @@ public class FriendsActivity extends BaseActivity implements View.OnClickListene
         });
         layoutInput = (LinearLayout)findViewById(R.id.layout_input);
         tvSend = (TextView)findViewById(R.id.tv_send);
+        tvSend.setOnClickListener(this);
     }
 
     private void updata(){
@@ -156,60 +156,27 @@ public class FriendsActivity extends BaseActivity implements View.OnClickListene
         isLoadMore = false;
     }
 
-    private ViewTreeObserver.OnGlobalLayoutListener layoutChangeListener = new ViewTreeObserver.OnGlobalLayoutListener() {
-
-        @Override
-        public void onGlobalLayout() {
-            //判断窗口可见区域大小
-            Rect r = new Rect();
-            getWindow().getDecorView().getWindowVisibleDisplayFrame(r);
-            int screenHeight = Helper.getScreenHeight(FriendsActivity.this);
-            //如果屏幕高度和Window可见区域高度差值大于整个屏幕高度的1/3，则表示软键盘显示中，否则软键盘为隐藏状态。
-            int heightDifference = screenHeight - (r.bottom - r.top);
-            boolean isKeyboardShowing = heightDifference > screenHeight/3;
-
-            //如果之前软键盘状态为显示，现在为关闭，或者之前为关闭，现在为显示，则表示软键盘的状态发生了改变
-            if ((keyboardShowFlag && !isKeyboardShowing) || (!keyboardShowFlag && isKeyboardShowing)) {
-                if(keyboardShowFlag){
-                    layoutInput.setVisibility(View.GONE);
-                }
-                keyboardShowFlag = isKeyboardShowing;
-            }
-        }
-
-    };
-
-    private void addKeyBoardListener(){
-        //注册布局变化监听
-        getWindow().getDecorView().getViewTreeObserver().addOnGlobalLayoutListener(layoutChangeListener);
-    }
-
-    private void removeKeyBoardListener(){
-        //移除布局变化监听
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            getWindow().getDecorView().getViewTreeObserver().removeOnGlobalLayoutListener(layoutChangeListener);
-        } else {
-            getWindow().getDecorView().getViewTreeObserver().removeGlobalOnLayoutListener(layoutChangeListener);
-        }
-    }
 
     @Override
     protected void onDestroy() {
-        removeKeyBoardListener();
         super.onDestroy();
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()){
-            case R.id.btn_send:
+            case R.id.tv_send:
                 String content = etInput.getText().toString().trim();
                 if(commentPosition >=0 && commentPosition < listSS.size() && content != null && content.length() > 0){
                     Comment comment = new Comment();
                     comment.content = content;
                     comment.fromUser = App.getInstance().getUser();
-                    listSS.get(commentPosition).commentList.add(new Comment());
+                    comment.toUser = listSS.get(commentPosition).user;
+                    listSS.get(commentPosition).commentList.add(comment);
                     friendsAdapter.notifyDataSetChanged();
+                    SoftKeyBoardUtil.hideSoftKeyBoard(etInput);
+                    etInput.setText("");
+                    layoutInput.setVisibility(View.GONE);
                 }
                 break;
         }

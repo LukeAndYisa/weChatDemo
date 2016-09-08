@@ -65,7 +65,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/layout_comment"
+                android:id="@+id/layout_sns"
                 android:background="@drawable/bg_comment"
                 android:orientation="vertical"
                 android:paddingTop="10dp"
@@ -97,7 +97,20 @@
 
                 </LinearLayout>
 
+                <View
+                    android:id="@+id/divider_1"
+                    android:visibility="gone"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/color_line"/>
 
+                <com.emmanuel.wechatdemo.view.CommentLinearLayout
+                    android:id="@+id/layout_comment"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
 
             </LinearLayout>
 

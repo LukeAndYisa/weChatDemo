@@ -18,6 +18,7 @@ import com.emmanuel.wechatdemo.bean.ShuoShuo;
 import com.emmanuel.wechatdemo.util.ImageLoadUtil;
 import com.emmanuel.wechatdemo.util.UserUtil;
 import com.emmanuel.wechatdemo.view.ColorFilterImageView;
+import com.emmanuel.wechatdemo.view.CommentLinearLayout;
 import com.emmanuel.wechatdemo.view.CommentPopupWindows;
 import com.emmanuel.wechatdemo.view.MultiImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -123,15 +124,18 @@ public class FriendsAdapter extends BaseRecycleViewAdapter {
             if (shuoShuo.zanList == null || shuoShuo.zanList.size() <= 0) {
                 viewHolder.layoutZans.setVisibility(View.GONE);
                 if (shuoShuo.commentList == null || shuoShuo.commentList.size() <= 0) {
-                    viewHolder.layoutComment.setVisibility(View.GONE);
+                    viewHolder.layoutSns.setVisibility(View.GONE);
                 }
             } else {
                 viewHolder.layoutZans.setVisibility(View.VISIBLE);
                 viewHolder.tvZans.setText(getZansText(shuoShuo.zanList));
             }
             if (!(shuoShuo.commentList == null || shuoShuo.commentList.size() <= 0)) {
-                viewHolder.layoutComment.setVisibility(View.VISIBLE);
-
+                viewHolder.layoutSns.setVisibility(View.VISIBLE);
+                viewHolder.commentLinearLayout.setCommentList(shuoShuo.commentList);
+                if(!(shuoShuo.zanList == null || shuoShuo.zanList.size() <= 0)){
+                    viewHolder.divider1.setVisibility(View.VISIBLE);
+                }
             }
 
             if(getItemViewType(position) == TYPE_CONTENT_PICTURE){
@@ -176,7 +180,8 @@ public class FriendsAdapter extends BaseRecycleViewAdapter {
         public TextView tvTime;
         public TextView tvContent;
         public TextView tvZans;
-        public LinearLayout layoutZans, layoutComment;
+        public LinearLayout layoutZans, layoutSns;
+        public CommentLinearLayout commentLinearLayout;
         public ImageView ivPhoto, ivComment;
         public ViewStub viewStub;
 
@@ -184,6 +189,7 @@ public class FriendsAdapter extends BaseRecycleViewAdapter {
 
         public ImageView viewStubIvPic;
         public MultiImageView viewStubMiv;
+        public View divider1;
 
         public SSViewHolder(View itemView, int itemType) {
             super(itemView);
@@ -198,8 +204,9 @@ public class FriendsAdapter extends BaseRecycleViewAdapter {
                 ivPhoto = (ImageView) itemView.findViewById(R.id.iv_photo);
 
                 layoutZans = (LinearLayout) itemView.findViewById(R.id.layout_zans);
+                commentLinearLayout =(CommentLinearLayout)itemView.findViewById(R.id.layout_comment);
                 tvZans = (TextView) itemView.findViewById(R.id.tv_zans);
-                layoutComment = (LinearLayout) itemView.findViewById(R.id.layout_comment);
+                layoutSns = (LinearLayout) itemView.findViewById(R.id.layout_sns);
                 ivComment = (ImageView) itemView.findViewById(R.id.btn_comment);
                 viewStub = (ViewStub)itemView.findViewById(R.id.viewStub);
                 if(itemType == TYPE_CONTENT_PICTURE){
@@ -208,6 +215,7 @@ public class FriendsAdapter extends BaseRecycleViewAdapter {
                     viewStubMiv = (MultiImageView) itemView.findViewById(R.id.miv_picture);
                     viewStubIvPic = (ColorFilterImageView)itemView.findViewById(R.id.iv_picture);
                 }
+                divider1 = itemView.findViewById(R.id.divider_1);
             }
 
         }
