@@ -17,11 +17,9 @@ public class ToastUtil {
     //传入 内容，时间， 位置
     public static void showMessage(final CharSequence msg, final int len, final boolean center) {
         if (msg == null || msg.equals("")) {
-            //  LogUtil.w("[ToastUtil] response message is null.");
             return;
         }
         if (toast != null) {
-            //toast.cancel();
             toast.setText(msg);
             toast.setDuration(len);
         } else {

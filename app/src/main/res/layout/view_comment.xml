@@ -3,7 +3,6 @@
     android:id="@+id/tv_msg"
     android:textSize="14sp"
     android:text="ddfsfsd"
-    android:paddingLeft="8dp"
-    android:paddingRight="8dp"
+    android:background="@drawable/comment_textview_bg"
     android:layout_width="match_parent"
     android:layout_height="wrap_content" />

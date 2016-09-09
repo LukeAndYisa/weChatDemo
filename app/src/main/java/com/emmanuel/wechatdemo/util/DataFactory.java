@@ -33,7 +33,7 @@ public class DataFactory {
     };
     public static final String PICTURE_URL[] = {
             "http://www.pptbz.com/pptpic/UploadFiles_6909/201203/2012031220134655.jpg",
-            "http://img2.imgtn.bdimg.com/it/u=395920684,863299018&fm=21&gp=0.jpg",
+            "http://pic23.nipic.com/20120917/10076134_112929387108_2.jpg",
             "http://img3.imgtn.bdimg.com/it/u=3504467926,1438117737&fm=206&gp=0.jpg",
             "http://img1.imgtn.bdimg.com/it/u=663132532,1265075679&fm=206&gp=0.jpg",
             "http://img2.imgtn.bdimg.com/it/u=430285025,1168446243&fm=206&gp=0.jpg",

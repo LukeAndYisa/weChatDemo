@@ -15,5 +15,6 @@
     <color name="text_color_gray_light">#e2e2e2</color>
     
     <color name="color_keyboard_bg">#fffefefe</color>
+    <color name="color_null">#00ffffff</color>
 
 </resources>

@@ -1,6 +1,9 @@
 package com.emmanuel.wechatdemo.adapter;
 
 import android.content.Context;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +16,7 @@ import android.widget.TextView;
 
 import com.emmanuel.wechatdemo.R;
 import com.emmanuel.wechatdemo.bean.ShuoShuo;
+import com.emmanuel.wechatdemo.util.Constants;
 import com.emmanuel.wechatdemo.util.ImageLoadUtil;
 import com.emmanuel.wechatdemo.util.UserUtil;
 import com.emmanuel.wechatdemo.view.ColorFilterImageView;
@@ -39,6 +43,7 @@ public class FriendsAdapter extends BaseRecycleViewAdapter {
     private CommentPopupWindows popupWindow;
     private SSViewHolder ssViewHolder;
     private int currentPosition = -1;
+    private Handler myHandler;
 
     private CommentPopupWindows.PopupwindowClickListener onClickListener = new CommentPopupWindows.PopupwindowClickListener() {
         @Override
@@ -61,16 +66,22 @@ public class FriendsAdapter extends BaseRecycleViewAdapter {
                     }
                     break;
                 case R.id.pop_win_layout_comment:
-                    if(itemListener != null){
-                        itemListener.onCommentClick(currentPosition);
+                    if(myHandler != null){
+                        Message message = new Message();
+                        Bundle bundle = new Bundle();
+                        bundle.putInt(Constants.BUNDLE_KEY_SHUOSHUO_POS, currentPosition);
+                        message.what = Constants.HANDLER_FLAG_SHOW_EDITTEXT;
+                        message.setData(bundle);
+                        myHandler.sendMessage(message);
                     }
                     break;
             }
         }
     };
 
-    public FriendsAdapter(Context context){
+    public FriendsAdapter(Context context, Handler handler){
         this.context = context;
+        this.myHandler = handler;
     }
 
     @Override
@@ -131,15 +142,15 @@ public class FriendsAdapter extends BaseRecycleViewAdapter {
             }
             if (!(shuoShuo.commentList == null || shuoShuo.commentList.size() <= 0)) {
                 viewHolder.layoutSns.setVisibility(View.VISIBLE);
-//                Log.d(TAG, "shuoShuo.commentList.size = " + shuoShuo.commentList.size());
                 viewHolder.commentLinearLayout.setVisibility(View.VISIBLE);
-                viewHolder.commentLinearLayout.setCommentList(shuoShuo.commentList);
-                if(!(shuoShuo.zanList == null || shuoShuo.zanList.size() <= 0)){
-                    viewHolder.divider1.setVisibility(View.VISIBLE);
-                }
+                viewHolder.commentLinearLayout.setCommentList(shuoShuo.commentList, dataIndex);
             } else {
                 viewHolder.commentLinearLayout.setVisibility(View.GONE);
+            }
+            if((shuoShuo.commentList == null || shuoShuo.commentList.size() <= 0) || (shuoShuo.zanList == null || shuoShuo.zanList.size() <= 0)) {
                 viewHolder.divider1.setVisibility(View.GONE);
+            } else {
+                viewHolder.divider1.setVisibility(View.VISIBLE);
             }
 
             if(getItemViewType(position) == TYPE_CONTENT_PICTURE){
@@ -209,6 +220,7 @@ public class FriendsAdapter extends BaseRecycleViewAdapter {
 
                 layoutZans = (LinearLayout) itemView.findViewById(R.id.layout_zans);
                 commentLinearLayout =(CommentLinearLayout)itemView.findViewById(R.id.layout_comment);
+                commentLinearLayout.setHandler(myHandler);
                 tvZans = (TextView) itemView.findViewById(R.id.tv_zans);
                 layoutSns = (LinearLayout) itemView.findViewById(R.id.layout_sns);
                 ivComment = (ImageView) itemView.findViewById(R.id.btn_comment);

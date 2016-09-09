@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -16,10 +17,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.emmanuel.wechatdemo.App;
@@ -28,6 +31,8 @@ import com.emmanuel.wechatdemo.adapter.FriendsAdapter;
 import com.emmanuel.wechatdemo.adapter.RecycleViewItemListener;
 import com.emmanuel.wechatdemo.bean.Comment;
 import com.emmanuel.wechatdemo.bean.ShuoShuo;
+import com.emmanuel.wechatdemo.bean.User;
+import com.emmanuel.wechatdemo.util.Constants;
 import com.emmanuel.wechatdemo.util.DataFactory;
 import com.emmanuel.wechatdemo.util.Helper;
 import com.emmanuel.wechatdemo.util.SoftKeyBoardUtil;
@@ -42,9 +47,10 @@ public class FriendsActivity extends BaseActivity implements View.OnClickListene
     private static final String TAG = "FriendsActivity";
     private boolean keyboardShowFlag = false;
 
+    private RelativeLayout rootLayout;
     private RecyclerView recyclerView;
     private FriendsAdapter friendsAdapter;
-    private RecyclerView.LayoutManager layoutManager;
+    private LinearLayoutManager layoutManager;
     private List<ShuoShuo>listSS;
 
     private boolean isLoadMore = false;
@@ -54,23 +60,72 @@ public class FriendsActivity extends BaseActivity implements View.OnClickListene
     private TextView tvSend, tvVoice;
 
     private int commentPosition = -1; //评论的说说id
+    private User toUser; //给谁评论
 
-    private RecycleViewItemListener listener = new RecycleViewItemListener() {
+    private RecycleViewItemListener listener;
+
+    //监听etinput是否是在底部
+    private ViewTreeObserver.OnGlobalLayoutListener keyboardLayoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
         @Override
-        public void onItemClick(int position) {
+        public void onGlobalLayout() {
+            Rect rect = new Rect();
+            getWindow().getDecorView().getWindowVisibleDisplayFrame(rect);
+            int statusBarHeight = rect.top; //状态栏高度
+            int heightDiff = rootLayout.getRootView().getHeight() - rootLayout.getHeight();
+//            int contentViewTop = getWindow().findViewById(Window.ID_ANDROID_CONTENT).getTop();/
+//            Log.d(TAG, "rootLayout.getRootView().getHeight() = " + rootLayout.getRootView().getHeight());
+//            Log.d(TAG, "rootLayout.getHeight() = " + rootLayout.getHeight());
+//            Log.d(TAG, "heightDiff = " + heightDiff);
+//            Log.d(TAG, "contentViewTop = " + contentViewTop);
+//            Log.d(TAG, "statusBarHeight = " + statusBarHeight);
 
-        }
+            if(heightDiff <= statusBarHeight){
+                layoutInput.setVisibility(View.GONE);
+            } else {
+                layoutInput.setVisibility(View.VISIBLE);
+                etInput.setFocusable(true);
+                etInput.setFocusableInTouchMode(true);
+                etInput.requestFocus();
+                //TODO  滚动到指定位置
+//                int childPos = commentPosition + 1;
+//                int childViewHeight = recyclerView.getChildAt(childPos).getHeight();
+//                int softKeybHeight = heightDiff - statusBarHeight;
+//                int offset = (childViewHeight + softKeybHeight + layoutInput.getHeight() - rootLayout.getHeight())/2;
+//                layoutManager.scrollToPositionWithOffset(commentPosition + 1, -offset);
+            }
 
-        @Override
-        public void onCommentClick(int position) {
-            layoutInput.setVisibility(View.VISIBLE);
-            etInput.setFocusableInTouchMode(true);
-            etInput.setFocusable(true);
-            etInput.requestFocus();
-            SoftKeyBoardUtil.showSoftKeyBoard(etInput);
-            commentPosition = position;
         }
     };
+
+    private Handler myHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case Constants.HANDLER_FLAG_SHOW_EDITTEXT:
+                    onComment(msg);
+                    break;
+            }
+        }
+    };
+
+    private void onComment(Message msg) {
+        Bundle data = msg.getData();
+        commentPosition = data.getInt(Constants.BUNDLE_KEY_SHUOSHUO_POS);
+        toUser = (User) data.get(Constants.BUNDLE_KEY_TO_USER);
+        layoutInput.setVisibility(View.VISIBLE);
+        etInput.setFocusableInTouchMode(true);
+        etInput.setFocusable(true);
+        etInput.requestFocus();
+        String hint = "回复";
+        if(toUser == null){
+            hint = hint + listSS.get(commentPosition).user.name;
+        } else {
+            hint = hint + toUser.name;
+        }
+        etInput.setHint(hint);
+        SoftKeyBoardUtil.showSoftKeyBoard(etInput);
+    }
 
     @Override
     protected void initView(Bundle savedInstanceState) {
@@ -80,11 +135,13 @@ public class FriendsActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void initViews() {
+        rootLayout = (RelativeLayout)findViewById(R.id.layout_root);
+        rootLayout.getViewTreeObserver().addOnGlobalLayoutListener(keyboardLayoutListener);
         recyclerView = (RecyclerView)findViewById(R.id.recyclerview_friends);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.addItemDecoration(new DividerItemDecoration(this,  LinearLayoutManager.VERTICAL));
-        friendsAdapter = new FriendsAdapter(this);
+        friendsAdapter = new FriendsAdapter(this, myHandler);
         friendsAdapter.setItemListener(listener);
         recyclerView.setAdapter(friendsAdapter);
 
@@ -156,10 +213,11 @@ public class FriendsActivity extends BaseActivity implements View.OnClickListene
         isLoadMore = false;
     }
 
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
+//        if ()
+//        etInput.getViewTreeObserver().removeOnGlobalLayoutListener(keyboardLayoutListener);
     }
 
     @Override
@@ -171,7 +229,10 @@ public class FriendsActivity extends BaseActivity implements View.OnClickListene
                     Comment comment = new Comment();
                     comment.content = content;
                     comment.fromUser = App.getInstance().getUser();
-                    comment.toUser = listSS.get(commentPosition).user;
+                    if(toUser == null)
+                        comment.toUser = listSS.get(commentPosition).user;
+                    else
+                        comment.toUser = toUser;
                     listSS.get(commentPosition).commentList.add(comment);
                     friendsAdapter.notifyDataSetChanged();
 
