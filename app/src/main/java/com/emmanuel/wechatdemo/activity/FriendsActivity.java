@@ -8,6 +8,7 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -64,7 +65,7 @@ public class FriendsActivity extends BaseActivity implements View.OnClickListene
 
     private RecycleViewItemListener listener;
 
-    //监听etinput是否是在底部
+    //监听软键盘的弹出和消失
     private ViewTreeObserver.OnGlobalLayoutListener keyboardLayoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
         @Override
         public void onGlobalLayout() {
@@ -130,6 +131,10 @@ public class FriendsActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void initView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_friends);
+        setTitle(getString(R.string.title_friends));
+        setLeftBtnVisibility(View.VISIBLE);
+        setRightRes(R.mipmap.icon_camera);
+
         initViews();
         updata();
     }

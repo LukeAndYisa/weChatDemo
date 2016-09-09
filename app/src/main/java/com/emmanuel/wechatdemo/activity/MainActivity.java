@@ -35,6 +35,8 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void initView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_main);
+        setTitle(getString(R.string.title_wechat));
+        setLeftBtnVisibility(View.GONE);
         mFragmentMap = new HashMap<>() ;
         mViewPager = (ViewPager)findViewById(R.id.activity_main_viewpager) ;
         mViewPager.setOffscreenPageLimit(4);

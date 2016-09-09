@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.emmanuel.wechatdemo.App;
@@ -24,6 +25,23 @@ import com.emmanuel.wechatdemo.util.DensityUtil;
 public abstract class BaseActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
+    private TextView tvTitle;
+    private ImageView ivRight;
+
+    private String title = "";
+    private int leftVisibility = View.GONE;
+    private int rightRes = 0;
+
+    private View.OnClickListener onClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            switch (view.getId()){
+                case R.id.left:
+                    BaseActivity.this.finish();
+                    break;
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +53,15 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     private void initToolBar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("");
+        tvTitle = (TextView)toolbar.findViewById(R.id.title);
+        tvTitle.setText(title);
+        toolbar.findViewById(R.id.left).setVisibility(leftVisibility);
+        toolbar.findViewById(R.id.left).setOnClickListener(onClickListener);
+        ivRight = (ImageView)findViewById(R.id.iv_right_1);
+        if(rightRes != 0) {
+            ivRight.setImageResource(rightRes);
+            ivRight.setVisibility(View.VISIBLE);
+        }
         setSupportActionBar(toolbar);
 
     }
@@ -67,4 +93,16 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     protected abstract void initView(Bundle savedInstanceState);
+
+    protected void setTitle(String title){
+        this.title = title;
+    }
+
+    protected void setLeftBtnVisibility(int visibility){
+        leftVisibility = visibility;
+    }
+
+    protected void setRightRes(int res){
+        this.rightRes = res;
+    }
 }
