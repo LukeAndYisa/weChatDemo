@@ -1,13 +1,12 @@
 package com.emmanuel.wechatdemo.bean;
 
-import android.net.Uri;
+import java.io.Serializable;
 
 /**
  * Created by user on 2016/9/11.
  */
-public class Picture {
-    public Uri uri;
+public class Picture implements Serializable{
+    public String uri;
     public String picName;
-
     public boolean isChecked = false;
 }

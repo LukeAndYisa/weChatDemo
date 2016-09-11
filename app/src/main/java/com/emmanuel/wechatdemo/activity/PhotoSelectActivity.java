@@ -2,6 +2,7 @@ package com.emmanuel.wechatdemo.activity;
 
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.opengl.Visibility;
@@ -19,7 +20,10 @@ import com.emmanuel.wechatdemo.adapter.PictureAdapter;
 import com.emmanuel.wechatdemo.bean.Picture;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -69,6 +73,7 @@ public class PhotoSelectActivity extends BaseActivity implements View.OnClickLis
 
         tvLocalPic.setOnClickListener(this);
         tvLookUp.setOnClickListener(this);
+        findViewById(R.id.tv_look_up).setOnClickListener(this);
 
         initData();
     }
@@ -104,7 +109,7 @@ public class PhotoSelectActivity extends BaseActivity implements View.OnClickLis
                 showPicPopWin();
                 break;
             case R.id.tv_look_up:
-                if(picCount <= 0)
+                if(adapter.getSelectedPicPosition().size() <= 0)
                     return;
                 onLookUp();
                 break;
@@ -116,6 +121,26 @@ public class PhotoSelectActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void onLookUp() {
+        List<Integer> listPos = adapter.getSelectedPicPosition();
+        Collections.sort(listPos, new Comparator<Integer>() {
+            @Override
+            public int compare(Integer t1, Integer t2) {
+                if(t1 < t2)
+                    return -1;
+                else if(t1 == t2)
+                    return 0;
+                else
+                    return 1;
+            }
+        });
+        ArrayList<Picture>listSelectedPic = new ArrayList<>();
+
+        for(int i=0; i<listPos.size(); i++){
+            listSelectedPic.add(listPic.get(listPos.get(i)));
+        }
+        Intent intent = new Intent(PhotoSelectActivity.this, BrowsePictureActivity.class);
+        intent.putExtra("selectedPictures", listSelectedPic);
+        startActivity(intent);
 
     }
 
@@ -157,7 +182,7 @@ public class PhotoSelectActivity extends BaseActivity implements View.OnClickLis
             while (c.moveToNext() && i < c.getCount()) {
                 long origId = c.getLong(columnIndex);
                 Picture picture = new Picture();
-                picture.uri = Uri.withAppendedPath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, origId + "");
+                picture.uri = Uri.withAppendedPath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, origId + "").toString();
                 listPic.add(picture);
 //                c.moveToPosition(i);
                 i++;

@@ -8,6 +8,7 @@
     <string name="all_picture">所有图片</string>
     <string name="look_up">预览</string>
     <string name="text_done">完成</string>
+    <string name="text_select">选择</string>
 
     <!--标题类文字-->
     <string name="title_friends">朋友圈</string>

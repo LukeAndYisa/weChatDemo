@@ -28,10 +28,12 @@
             android:windowSoftInputMode ="adjustResize"
             android:screenOrientation="portrait"
             android:name=".activity.FriendsActivity"/>
-
         <activity
             android:screenOrientation="portrait"
             android:name=".activity.PhotoSelectActivity"/>
+        <activity
+            android:screenOrientation="portrait"
+            android:name=".activity.BrowsePictureActivity"/>
     </application>
 
 </manifest>

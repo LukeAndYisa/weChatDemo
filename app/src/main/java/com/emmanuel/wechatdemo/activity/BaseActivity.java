@@ -117,6 +117,8 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected void setTitle(String title){
         this.title = title;
+        if(tvTitle != null)
+            tvTitle.setText(title);
     }
 
     protected void setLeftBtnVisibility(int visibility){

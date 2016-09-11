@@ -46,7 +46,7 @@ public class PictureAdapter extends BaseRecycleViewAdapter {
         final int p = position;
         final PictureViewHolder viewHolder = (PictureViewHolder)holder;
         final Picture picture = datas.get(position);
-        ImageLoader.getInstance().displayImage(picture.uri.toString(), viewHolder.imageView, ImageLoadUtil.getOptions1());
+        ImageLoader.getInstance().displayImage(picture.uri, viewHolder.imageView, ImageLoadUtil.getOptions1());
         if(picture.isChecked){
             viewHolder.checkBox.setImageResource(R.mipmap.icon_checked);
             viewHolder.imageView.turnOff();
