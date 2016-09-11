@@ -16,5 +16,6 @@
     
     <color name="color_keyboard_bg">#fffefefe</color>
     <color name="color_null">#00ffffff</color>
+    <color name="bg_pic_select_bottom">#55000000</color>
 
 </resources>

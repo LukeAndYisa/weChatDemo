@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -24,13 +25,18 @@ import com.emmanuel.wechatdemo.util.DensityUtil;
  */
 public abstract class BaseActivity extends AppCompatActivity {
 
+    private static final String TAG = "BaseActivity";
+
     private Toolbar toolbar;
     private TextView tvTitle;
-    private ImageView ivRight;
+    private ImageView ivRight1;
+    private TextView tvRight1;
 
     private String title = "";
     private int leftVisibility = View.GONE;
     private int rightRes = 0;
+
+    private String textRight1 = null;
 
     private View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
@@ -38,6 +44,12 @@ public abstract class BaseActivity extends AppCompatActivity {
             switch (view.getId()){
                 case R.id.left:
                     BaseActivity.this.finish();
+                    break;
+                case R.id.iv_right_1:
+                    onBtnRight1();
+                    break;
+                case R.id.tv_right_1:
+                    onTextRight1();
                     break;
             }
         }
@@ -57,10 +69,19 @@ public abstract class BaseActivity extends AppCompatActivity {
         tvTitle.setText(title);
         toolbar.findViewById(R.id.left).setVisibility(leftVisibility);
         toolbar.findViewById(R.id.left).setOnClickListener(onClickListener);
-        ivRight = (ImageView)findViewById(R.id.iv_right_1);
+        //右边第一个imageview
+        ivRight1 = (ImageView)findViewById(R.id.iv_right_1);
+        ivRight1.setOnClickListener(onClickListener);
         if(rightRes != 0) {
-            ivRight.setImageResource(rightRes);
-            ivRight.setVisibility(View.VISIBLE);
+            ivRight1.setImageResource(rightRes);
+            ivRight1.setVisibility(View.VISIBLE);
+        }
+        //右边第一个textview
+        tvRight1 = (TextView)findViewById(R.id.tv_right_1);
+        tvRight1.setOnClickListener(onClickListener);
+        tvRight1.setText(textRight1);
+        if(textRight1 != null){
+            tvRight1.setVisibility(View.VISIBLE);
         }
         setSupportActionBar(toolbar);
 
@@ -104,5 +125,19 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected void setRightRes(int res){
         this.rightRes = res;
+    }
+
+    protected void setTvRight1Text(String text){
+        textRight1 = text;
+        if(tvRight1 != null)
+            tvRight1.setText(textRight1);
+    }
+
+    protected void onBtnRight1() {
+        Log.d(TAG, "Click right btn 1");
+    }
+
+    protected void onTextRight1(){
+        Log.d(TAG, "Click right text 1");
     }
 }

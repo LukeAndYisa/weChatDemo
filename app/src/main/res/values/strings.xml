@@ -5,8 +5,12 @@
     <string name="edittext_input_hint">说啥类...</string>
 
     <string name="load_more">加载更多...</string>
+    <string name="all_picture">所有图片</string>
+    <string name="look_up">预览</string>
+    <string name="text_done">完成</string>
 
     <!--标题类文字-->
     <string name="title_friends">朋友圈</string>
     <string name="title_wechat">微信DEMO</string>
+    <string name="title_pic_select">图片</string>
 </resources>

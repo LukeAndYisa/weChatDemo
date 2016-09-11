@@ -12,8 +12,11 @@ import android.widget.ImageView;
  * Created by user on 2016/8/22.
  */
 public class ColorFilterImageView extends ImageView implements View.OnTouchListener {
+
+    private boolean canTouchSwitch = true;
+
     public ColorFilterImageView(Context context) {
-        this(context, null, 0);
+        this(context, null);
     }
 
     public ColorFilterImageView(Context context, AttributeSet attrs) {
@@ -32,16 +35,30 @@ public class ColorFilterImageView extends ImageView implements View.OnTouchListe
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:  // 按下时图像变灰
-                setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
+            case MotionEvent.ACTION_DOWN:
+                if (canTouchSwitch)
+                    turnOff();
                 break;
-            case MotionEvent.ACTION_UP:   // 手指离开或取消操作时恢复原色
+            case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
-                setColorFilter(Color.TRANSPARENT);
+                if (canTouchSwitch)
+                    turnOn();
                 break;
             default:
                 break;
         }
         return false;
+    }
+
+    public void turnOn(){
+        setColorFilter(Color.TRANSPARENT);
+    }
+
+    public void turnOff(){
+        setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
+    }
+
+    public void setCanTouchSwitch(boolean touchSwitch){
+        this.canTouchSwitch = touchSwitch;
     }
 }

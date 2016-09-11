@@ -35,6 +35,21 @@
             android:textColor="@color/white"
             android:text="标题栏" />
 
+        <TextView
+            android:id="@+id/tv_right_1"
+            android:text="@string/text_done"
+            android:textColor="@color/white"
+            android:background="@color/text_color_blue_deep"
+            android:gravity="center"
+            android:layout_centerVertical="true"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="6dp"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp" />
+
         <ImageView
             android:id="@+id/iv_right_1"
             android:layout_width="wrap_content"

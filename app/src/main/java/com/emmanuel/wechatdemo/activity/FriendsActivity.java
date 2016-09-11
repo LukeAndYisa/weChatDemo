@@ -1,6 +1,7 @@
 package com.emmanuel.wechatdemo.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Handler;
@@ -73,14 +74,14 @@ public class FriendsActivity extends BaseActivity implements View.OnClickListene
             getWindow().getDecorView().getWindowVisibleDisplayFrame(rect);
             int statusBarHeight = rect.top; //状态栏高度
             int heightDiff = rootLayout.getRootView().getHeight() - rootLayout.getHeight();
-//            int contentViewTop = getWindow().findViewById(Window.ID_ANDROID_CONTENT).getTop();/
+            int contentViewTop = getWindow().findViewById(Window.ID_ANDROID_CONTENT).getHeight();
 //            Log.d(TAG, "rootLayout.getRootView().getHeight() = " + rootLayout.getRootView().getHeight());
 //            Log.d(TAG, "rootLayout.getHeight() = " + rootLayout.getHeight());
 //            Log.d(TAG, "heightDiff = " + heightDiff);
 //            Log.d(TAG, "contentViewTop = " + contentViewTop);
 //            Log.d(TAG, "statusBarHeight = " + statusBarHeight);
 
-            if(heightDiff <= statusBarHeight){
+            if(heightDiff <= contentViewTop){
                 layoutInput.setVisibility(View.GONE);
             } else {
                 layoutInput.setVisibility(View.VISIBLE);
@@ -240,12 +241,18 @@ public class FriendsActivity extends BaseActivity implements View.OnClickListene
                         comment.toUser = toUser;
                     listSS.get(commentPosition).commentList.add(comment);
                     friendsAdapter.notifyDataSetChanged();
-
-                    SoftKeyBoardUtil.hideSoftKeyBoard(etInput);
-                    etInput.setText("");
-                    layoutInput.setVisibility(View.GONE);
                 }
+                SoftKeyBoardUtil.hideSoftKeyBoard(etInput);
+                etInput.setText("");
+                layoutInput.setVisibility(View.GONE);
                 break;
         }
+    }
+
+    @Override
+    protected void onBtnRight1() {
+        super.onBtnRight1();
+        Intent intent = new Intent(FriendsActivity.this, PhotoSelectActivity.class);
+        startActivity(intent);
     }
 }

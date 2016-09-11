@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        layout="@layout/toolbar"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:background="@color/bg_pic_select_bottom"
+            android:textColor="@color/white"
+            android:text="2016/60/05"
+            android:textSize="14sp"
+            android:visibility="gone"
+            android:paddingLeft="10dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:background="@color/bg_gray_deep"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <RelativeLayout
+            android:id="@+id/layout_bottom"
+            android:layout_alignParentBottom="true"
+            android:background="@color/bg_pic_select_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="44dp">
+
+            <TextView
+                android:id="@+id/tv_local_picture"
+                android:text="@string/all_picture"
+                android:gravity="center"
+                android:paddingLeft="10dp"
+                android:textColor="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/tv_look_up"
+                android:text="@string/look_up"
+                android:layout_alignParentRight="true"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:paddingRight="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>
