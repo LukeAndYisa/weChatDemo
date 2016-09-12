@@ -10,8 +10,12 @@
     <string name="text_done">完成</string>
     <string name="text_select">选择</string>
 
+    <!--hint 文字-->
+    <string name="hint_input_shuoshuo">这一刻的想法...</string>
+
     <!--标题类文字-->
     <string name="title_friends">朋友圈</string>
     <string name="title_wechat">微信DEMO</string>
     <string name="title_pic_select">图片</string>
+    <string name="title_push_shuo">编辑说说</string>
 </resources>

@@ -22,7 +22,9 @@ import com.emmanuel.wechatdemo.event.DefaultEvent;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -122,6 +124,13 @@ public class PhotoSelectActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void onLookUp() {
+        ArrayList<Picture>listSelectedPic = getSelectedList();
+        Intent intent = new Intent(PhotoSelectActivity.this, BrowsePictureActivity.class);
+        intent.putExtra("selectedPictures", listSelectedPic);
+        startActivity(intent);
+    }
+
+    private ArrayList<Picture> getSelectedList(){
         List<Integer> listPos = adapter.getSelectedPicPosition();
         Collections.sort(listPos, new Comparator<Integer>() {
             @Override
@@ -139,18 +148,20 @@ public class PhotoSelectActivity extends BaseActivity implements View.OnClickLis
         for(int i=0; i<listPos.size(); i++){
             listSelectedPic.add(listPic.get(listPos.get(i)));
         }
-        Intent intent = new Intent(PhotoSelectActivity.this, BrowsePictureActivity.class);
-        intent.putExtra("selectedPictures", listSelectedPic);
-        startActivity(intent);
-
+        return listSelectedPic;
     }
 
     @Override
     protected void onTextRight1() {
         super.onTextRight1();
-
+        ArrayList<Picture>listSelectedPic = getSelectedList();
+        Intent intent = new Intent(this, PushShuoActivity.class);
+        intent.putExtra("selectedPictures", listSelectedPic);
+        startActivity(intent);
+        finish();
     }
 
+    @Subscribe
     public void onEventMainThread(DefaultEvent event){
         int type = event.getIntType();
         if(type == DefaultEvent.CLOSE_ACTIVITY)

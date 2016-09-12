@@ -1,5 +1,6 @@
 package com.emmanuel.wechatdemo.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -12,8 +13,11 @@ import android.widget.TextView;
 
 import com.emmanuel.wechatdemo.R;
 import com.emmanuel.wechatdemo.bean.Picture;
+import com.emmanuel.wechatdemo.event.DefaultEvent;
 import com.emmanuel.wechatdemo.view.PinchImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,6 +91,21 @@ public class BrowsePictureActivity extends BaseActivity implements View.OnClickL
         }
     }
 
+    @Override
+    protected void onTextRight1() {
+        super.onTextRight1();
+        ArrayList<Picture>listSelectedPic = new ArrayList<>();
+        for(int i=0; i<pictureList.size(); i++){
+            if(pictureList.get(i).isChecked){
+                listSelectedPic.add(pictureList.get(i));
+            }
+        }
+        Intent intent = new Intent(this, PushShuoActivity.class);
+        intent.putExtra("selectedPictures", listSelectedPic);
+        startActivity(intent);
+        EventBus.getDefault().post(new DefaultEvent(DefaultEvent.CLOSE_ACTIVITY));
+        finish();
+    }
 
     class MyViewPagerAdapter extends PagerAdapter {
         private List<View> mListViews;

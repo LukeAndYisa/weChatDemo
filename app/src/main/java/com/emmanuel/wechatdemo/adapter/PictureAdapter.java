@@ -28,15 +28,27 @@ public class PictureAdapter extends BaseRecycleViewAdapter {
     private List<Picture>datas;
     private OnSelectedListener onSelectedListener;
 
+    private int itemType;  //1,2两种
+
     public PictureAdapter(Context context, List<Picture>datas, OnSelectedListener listener){
+        this(context, datas, listener, 1);
+    }
+
+    public PictureAdapter(Context context, List<Picture>datas, OnSelectedListener listener, int itemType){
         this.context = context;
         this.datas = datas;
         this.onSelectedListener = listener;
+        this.itemType = itemType;
     }
 
     @Override
     public PictureViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_picture, parent, false);
+        View view;
+        if(itemType == 2){
+            view = LayoutInflater.from(context).inflate(R.layout.item_picture_2, parent, false);
+        }else{
+            view = LayoutInflater.from(context).inflate(R.layout.item_picture, parent, false);
+        }
         PictureViewHolder viewHolder = new PictureViewHolder(view);
         return viewHolder;
     }
@@ -47,41 +59,44 @@ public class PictureAdapter extends BaseRecycleViewAdapter {
         final PictureViewHolder viewHolder = (PictureViewHolder)holder;
         final Picture picture = datas.get(position);
         ImageLoader.getInstance().displayImage(picture.uri, viewHolder.imageView, ImageLoadUtil.getOptions1());
-        if(picture.isChecked){
-            viewHolder.checkBox.setImageResource(R.mipmap.icon_checked);
-            viewHolder.imageView.turnOff();
-        } else {
-            viewHolder.checkBox.setImageResource(R.mipmap.icon_unchecked);
-            viewHolder.imageView.turnOn();
-        }
-        viewHolder.checkBox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(datas.get(p).isChecked){
-                    viewHolder.checkBox.setImageResource(R.mipmap.icon_unchecked);
-                    viewHolder.imageView.turnOn();
-                    for(int i=0; i<listSelected.size(); i++){
-                        int sPos = listSelected.get(i);
-                        if(p == sPos){
-                            listSelected.remove(i);
-                            datas.get(p).isChecked = false;
-                            break;
-                        }
-                    }
-                    if(onSelectedListener != null)
-                        onSelectedListener.onRemove(p);
-                } else{
-                    if(MAX_PICTURE <= listSelected.size())
-                        return;
-                    viewHolder.checkBox.setImageResource(R.mipmap.icon_checked);
-                    viewHolder.imageView.turnOff();
-                    listSelected.add(p);
-                    datas.get(p).isChecked = true;
-                    if(onSelectedListener != null)
-                        onSelectedListener.onSelected(p);
-                }
+
+        if(itemType == 1) {
+            if (picture.isChecked) {
+                viewHolder.checkBox.setImageResource(R.mipmap.icon_checked);
+                viewHolder.imageView.turnOff();
+            } else {
+                viewHolder.checkBox.setImageResource(R.mipmap.icon_unchecked);
+                viewHolder.imageView.turnOn();
             }
-        });
+            viewHolder.checkBox.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (datas.get(p).isChecked) {
+                        viewHolder.checkBox.setImageResource(R.mipmap.icon_unchecked);
+                        viewHolder.imageView.turnOn();
+                        for (int i = 0; i < listSelected.size(); i++) {
+                            int sPos = listSelected.get(i);
+                            if (p == sPos) {
+                                listSelected.remove(i);
+                                datas.get(p).isChecked = false;
+                                break;
+                            }
+                        }
+                        if (onSelectedListener != null)
+                            onSelectedListener.onRemove(p);
+                    } else {
+                        if (MAX_PICTURE <= listSelected.size())
+                            return;
+                        viewHolder.checkBox.setImageResource(R.mipmap.icon_checked);
+                        viewHolder.imageView.turnOff();
+                        listSelected.add(p);
+                        datas.get(p).isChecked = true;
+                        if (onSelectedListener != null)
+                            onSelectedListener.onSelected(p);
+                    }
+                }
+            });
+        }
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.emmanuel.wechatdemo.util;
 
 import com.emmanuel.wechatdemo.R;
 import com.emmanuel.wechatdemo.bean.Comment;
+import com.emmanuel.wechatdemo.bean.Picture;
 import com.emmanuel.wechatdemo.bean.ShuoShuo;
 import com.emmanuel.wechatdemo.bean.User;
 
@@ -19,8 +20,8 @@ public class DataFactory {
             "个人博客 http://blog.csdn.net/acmnickzhang",
             "好好写代码",
             "SHI LI XIU YIBO YINGYU",
-            "分享精神，开源为乐，共同进步！！！！！",
-            "",
+            "分享精神，开源为乐，共同进步！",
+            "不积小流无以至江海，不积跬步无以至千里",
             "笨鸟先飞。。。"
     };
     public static final String PHOTO_URL[] = {
@@ -123,13 +124,15 @@ public class DataFactory {
         return PHOTO_URL[index];
     }
 
-    private static List<String> getPicList(){
+    private static List<Picture> getPicList(){
         random = new Random();
         int picSize = random.nextInt(10); //0 -- 9张
-        List<String>listPic = new ArrayList<>();
+        List<Picture>listPic = new ArrayList<>();
         for(int i=0; i<picSize; i++){
             int index = random.nextInt(PICTURE_URL.length);
-            listPic.add(PICTURE_URL[index]);
+            Picture picture = new Picture();
+            picture.uri = PICTURE_URL[index];
+            listPic.add(picture);
         }
 
         return listPic;

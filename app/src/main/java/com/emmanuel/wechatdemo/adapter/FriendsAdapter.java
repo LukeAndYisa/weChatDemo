@@ -25,6 +25,7 @@ import com.emmanuel.wechatdemo.view.CommentPopupWindows;
 import com.emmanuel.wechatdemo.view.MultiImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -129,7 +130,11 @@ public class FriendsAdapter extends BaseRecycleViewAdapter {
             ShuoShuo shuoShuo = (ShuoShuo) datas.get(dataIndex);
             viewHolder.tvName.setText(shuoShuo.user.name);
             viewHolder.tvContent.setText(shuoShuo.content);
-            ImageLoader.getInstance().displayImage(shuoShuo.user.photoUrl, viewHolder.ivPhoto, ImageLoadUtil.getOptions2());
+            if(shuoShuo.user.photoUrl == null){
+                viewHolder.ivPhoto.setImageResource(R.mipmap.myphoto);
+            }else {
+                ImageLoader.getInstance().displayImage(shuoShuo.user.photoUrl, viewHolder.ivPhoto, ImageLoadUtil.getOptions2());
+            }
             viewHolder.ivComment.setOnClickListener(new OnViewClickListener(null, dataIndex));
             if (shuoShuo.zanList == null || shuoShuo.zanList.size() <= 0) {
                 viewHolder.layoutZans.setVisibility(View.GONE);
@@ -160,12 +165,16 @@ public class FriendsAdapter extends BaseRecycleViewAdapter {
                             viewHolder.viewStubIvPic.setVisibility(View.VISIBLE);
                             viewHolder.viewStubMiv.setVisibility(View.GONE);
                             viewHolder.viewStubIvPic.setOnClickListener(new OnViewClickListener(viewHolder, position));
-                            ImageLoader.getInstance().displayImage(shuoShuo.picList.get(0),
+                            ImageLoader.getInstance().displayImage(shuoShuo.picList.get(0).uri,
                                 viewHolder.viewStubIvPic, ImageLoadUtil.getOptions1());
                         } else{
                             viewHolder.viewStubIvPic.setVisibility(View.GONE);
                             viewHolder.viewStubMiv.setVisibility(View.VISIBLE);
-                            ((SSViewHolder) holder).viewStubMiv.setList(shuoShuo.picList);
+                            List<String>list = new ArrayList<String>();
+                            for(int i = 0; i<shuoShuo.picList.size(); i++){
+                                list.add(shuoShuo.picList.get(i).uri);
+                            }
+                            ((SSViewHolder) holder).viewStubMiv.setList(list);
                         }
                     }
                 }
