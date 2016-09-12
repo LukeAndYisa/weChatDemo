@@ -9,22 +9,22 @@ import com.emmanuel.wechatdemo.BuildConfig;
  */
 public class LogUtil {
 
-    public void logE(String TAG, String msg){
+    public static void logE(String TAG, String msg){
         if (BuildConfig.logFlag)
             Log.e(TAG, msg);
     }
 
-    public void logD(String TAG, String msg){
+    public static void logD(String TAG, String msg){
         if (BuildConfig.logFlag)
             Log.d(TAG, msg);
     }
 
-    public void logI(String TAG, String msg){
+    public static void logI(String TAG, String msg){
         if (BuildConfig.logFlag)
             Log.i(TAG, msg);
     }
 
-    public void logW(String TAG, String msg){
+    public static void logW(String TAG, String msg){
         if (BuildConfig.logFlag)
             Log.w(TAG, msg);
     }

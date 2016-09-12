@@ -38,6 +38,7 @@ import com.emmanuel.wechatdemo.event.ShuoShuoPushEvent;
 import com.emmanuel.wechatdemo.util.Constants;
 import com.emmanuel.wechatdemo.util.DataFactory;
 import com.emmanuel.wechatdemo.util.Helper;
+import com.emmanuel.wechatdemo.util.LogUtil;
 import com.emmanuel.wechatdemo.util.SoftKeyBoardUtil;
 import com.emmanuel.wechatdemo.util.UserUtil;
 import com.emmanuel.wechatdemo.view.DividerItemDecoration;
@@ -68,7 +69,8 @@ public class FriendsActivity extends BaseActivity implements View.OnClickListene
     private int commentPosition = -1; //评论的说说id
     private User toUser; //给谁评论
 
-    private RecycleViewItemListener listener;
+    private int heightRootLayout = -1; //未出现软键盘时候的高度
+
 
     //监听软键盘的弹出和消失
     private ViewTreeObserver.OnGlobalLayoutListener keyboardLayoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -76,28 +78,27 @@ public class FriendsActivity extends BaseActivity implements View.OnClickListene
         public void onGlobalLayout() {
             Rect rect = new Rect();
             getWindow().getDecorView().getWindowVisibleDisplayFrame(rect);
-            int statusBarHeight = rect.top; //状态栏高度
-            int heightDiff = rootLayout.getRootView().getHeight() - rootLayout.getHeight();
-            int contentViewTop = getWindow().findViewById(Window.ID_ANDROID_CONTENT).getHeight();
-//            Log.d(TAG, "rootLayout.getRootView().getHeight() = " + rootLayout.getRootView().getHeight());
-//            Log.d(TAG, "rootLayout.getHeight() = " + rootLayout.getHeight());
-//            Log.d(TAG, "heightDiff = " + heightDiff);
-//            Log.d(TAG, "contentViewTop = " + contentViewTop);
-//            Log.d(TAG, "statusBarHeight = " + statusBarHeight);
+//            int statusBarHeight = rect.top; //状态栏高度
+            int curHeightRootLayout = rootLayout.getHeight();//当前rootlayout
+//            int heightDiff = rootLayout.getRootView().getHeight() - rootLayout.getHeight();
+//            int contentViewTop = getWindow().findViewById(Window.ID_ANDROID_CONTENT).getHeight();
+//            LogUtil.logD(TAG, "rootLayout.getRootView().getHeight() = " + rootLayout.getRootView().getHeight());
+            LogUtil.logD(TAG, "rootLayout.getHeight() = " + rootLayout.getHeight());
+//            LogUtil.logD(TAG, "heightDiff = " + heightDiff);
+//            LogUtil.logD(TAG, "contentViewTop = " + contentViewTop);
+//            LogUtil.logD(TAG, "statusBarHeight = " + statusBarHeight);
+            LogUtil.logD(TAG, "heightRootLayout = " + heightRootLayout);
 
-            if(heightDiff <= contentViewTop){
+            if(heightRootLayout == -1)
+                heightRootLayout = rootLayout.getHeight();
+
+            if(curHeightRootLayout >= heightRootLayout){
                 layoutInput.setVisibility(View.GONE);
             } else {
                 layoutInput.setVisibility(View.VISIBLE);
                 etInput.setFocusable(true);
                 etInput.setFocusableInTouchMode(true);
                 etInput.requestFocus();
-                //TODO  滚动到指定位置
-//                int childPos = commentPosition + 1;
-//                int childViewHeight = recyclerView.getChildAt(childPos).getHeight();
-//                int softKeybHeight = heightDiff - statusBarHeight;
-//                int offset = (childViewHeight + softKeybHeight + layoutInput.getHeight() - rootLayout.getHeight())/2;
-//                layoutManager.scrollToPositionWithOffset(commentPosition + 1, -offset);
             }
 
         }
@@ -154,7 +155,7 @@ public class FriendsActivity extends BaseActivity implements View.OnClickListene
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.addItemDecoration(new DividerItemDecoration(this,  LinearLayoutManager.VERTICAL));
         friendsAdapter = new FriendsAdapter(this, myHandler);
-        friendsAdapter.setItemListener(listener);
+//        friendsAdapter.setItemListener(listener);
         recyclerView.setAdapter(friendsAdapter);
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
