@@ -127,11 +127,11 @@ public class BrowsePictureActivity extends BaseActivity implements View.OnClickL
         public MyViewPagerAdapter() {
             mListViews = new ArrayList<>();
             LayoutInflater inflater = getLayoutInflater();
-            View view = inflater.inflate(R.layout.view_browse_picture, null);
-            mListViews.add(view);
-            for(int i=1; i<pictureList.size(); i++){
-                View view1 = inflater.inflate(R.layout.view_browse_picture, null);
-                mListViews.add(view1);
+            for(int i=0; i<pictureList.size(); i++){
+                View view = inflater.inflate(R.layout.view_browse_picture, null);
+                PinchImageView imageView = (PinchImageView)view.findViewById(R.id.iv_picture);
+                ImageLoader.getInstance().displayImage(pictureList.get(i).uri, imageView);
+                mListViews.add(view);
             }
         }
 
@@ -140,13 +140,8 @@ public class BrowsePictureActivity extends BaseActivity implements View.OnClickL
             container.removeView(mListViews.get(position));//删除页卡
         }
 
-
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
-            if(position <0 || position >=pictureList.size())
-                return null;
-            PinchImageView imageView = (PinchImageView)mListViews.get(position).findViewById(R.id.iv_picture);
-            ImageLoader.getInstance().displayImage(pictureList.get(position).uri, imageView);
             container.addView(mListViews.get(position), 0);
             return mListViews.get(position);
         }
