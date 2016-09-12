@@ -1,18 +1,14 @@
 package com.emmanuel.wechatdemo.activity;
 
-import android.app.Activity;
-import android.content.res.Resources;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.emmanuel.wechatdemo.R;
-import com.emmanuel.wechatdemo.util.DensityUtil;
+import com.emmanuel.wechatdemo.fragment.FindFragment;
 import com.emmanuel.wechatdemo.view.TabLayout;
 
 import java.util.HashMap;

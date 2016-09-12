@@ -124,10 +124,10 @@ public class DataFactory {
         return PHOTO_URL[index];
     }
 
-    private static List<Picture> getPicList(){
+    private static ArrayList<Picture> getPicList(){
         random = new Random();
         int picSize = random.nextInt(10); //0 -- 9张
-        List<Picture>listPic = new ArrayList<>();
+        ArrayList<Picture>listPic = new ArrayList<>();
         for(int i=0; i<picSize; i++){
             int index = random.nextInt(PICTURE_URL.length);
             Picture picture = new Picture();

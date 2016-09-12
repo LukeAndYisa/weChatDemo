@@ -1,4 +1,4 @@
-package com.emmanuel.wechatdemo.activity;
+package com.emmanuel.wechatdemo.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.emmanuel.wechatdemo.R;
+import com.emmanuel.wechatdemo.activity.FriendsActivity;
 
 /**
  * Created by user on 2016/8/29.

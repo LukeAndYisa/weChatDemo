@@ -11,20 +11,21 @@ import android.provider.MediaStore;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.Window;
 import android.widget.AbsListView;
 import android.widget.TextView;
 
 import com.emmanuel.wechatdemo.R;
 import com.emmanuel.wechatdemo.adapter.PictureAdapter;
+import com.emmanuel.wechatdemo.adapter.RecycleViewItemListener;
 import com.emmanuel.wechatdemo.bean.Picture;
-import com.emmanuel.wechatdemo.event.BrowsePictureEvent;
 import com.emmanuel.wechatdemo.event.DefaultEvent;
+import com.emmanuel.wechatdemo.util.Constants;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -101,6 +102,22 @@ public class PhotoSelectActivity extends BaseActivity implements View.OnClickLis
                     setTvRight1Text("(" + adapter.getSelectedPicPosition().size() + "/9)完成");
             }
         });
+        adapter.setItemListener(new RecycleViewItemListener() {
+            @Override
+            public void onItemClick(int position, View view) {
+                ArrayList<Picture>listSelectedPic = new ArrayList<Picture>();
+                listSelectedPic.add(listPic.get(position));
+                Intent intent = new Intent(PhotoSelectActivity.this, BrowsePictureActivity.class);
+                intent.putExtra("type", Constants.TYPE_BROWSE);
+                intent.putExtra("selectedPictures", listSelectedPic);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onCommentClick(int position) {
+
+            }
+        });
         recyclerView.setAdapter(adapter);
         new LoadLocalImageTask().execute();
     }
@@ -126,6 +143,7 @@ public class PhotoSelectActivity extends BaseActivity implements View.OnClickLis
     private void onLookUp() {
         ArrayList<Picture>listSelectedPic = getSelectedList();
         Intent intent = new Intent(PhotoSelectActivity.this, BrowsePictureActivity.class);
+        intent.putExtra("type", Constants.TYPE_BROWSE_AND_SELECTED);
         intent.putExtra("selectedPictures", listSelectedPic);
         startActivity(intent);
     }

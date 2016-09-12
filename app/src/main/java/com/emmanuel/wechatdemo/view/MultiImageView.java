@@ -18,6 +18,7 @@ import java.util.List;
 public class MultiImageView extends LinearLayout {
     public static int MAX_WIDTH = 0;
 
+    private int shuoPosition = -1;
     // 照片的Url列表
     private List<String> imagesList;
 
@@ -194,12 +195,16 @@ public class MultiImageView extends LinearLayout {
         @Override
         public void onClick(View view) {
             if(mOnItemClickListener != null){
-                mOnItemClickListener.onItemClick(view, position);
+                mOnItemClickListener.onItemClick(view, position, shuoPosition);
             }
         }
     }
 
     public interface OnItemClickListener{
-        public void onItemClick(View view, int position);
+        public void onItemClick(View view, int position, int shuoPos);
+    }
+
+    public void setShuoShuoPosition(int pos){
+        shuoPosition = pos;
     }
 }

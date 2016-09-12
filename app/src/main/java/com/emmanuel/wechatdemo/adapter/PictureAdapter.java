@@ -59,7 +59,14 @@ public class PictureAdapter extends BaseRecycleViewAdapter {
         final PictureViewHolder viewHolder = (PictureViewHolder)holder;
         final Picture picture = datas.get(position);
         ImageLoader.getInstance().displayImage(picture.uri, viewHolder.imageView, ImageLoadUtil.getOptions1());
-
+        viewHolder.imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(itemListener != null){
+                    itemListener.onItemClick(p, view);
+                }
+            }
+        });
         if(itemType == 1) {
             if (picture.isChecked) {
                 viewHolder.checkBox.setImageResource(R.mipmap.icon_checked);

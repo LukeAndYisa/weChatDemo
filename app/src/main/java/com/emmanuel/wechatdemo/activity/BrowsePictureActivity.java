@@ -8,12 +8,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.emmanuel.wechatdemo.R;
 import com.emmanuel.wechatdemo.bean.Picture;
 import com.emmanuel.wechatdemo.event.DefaultEvent;
+import com.emmanuel.wechatdemo.util.Constants;
 import com.emmanuel.wechatdemo.view.PinchImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -29,25 +32,28 @@ public class BrowsePictureActivity extends BaseActivity implements View.OnClickL
 
     private static final String TAG = "BrowsePictureActivity";
     private ViewPager viewPager;
+    private RelativeLayout layoutBottom;
 
     private List<Picture> pictureList;
     private ImageView ivSelect;
     private int curPicturePos = 0;
     private int selectCount = 0;
 
+    private int browseType;
+
     @Override
     protected void initView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_browse_picture);
-        setLeftBtnVisibility(View.VISIBLE);
-
+        browseType = getIntent().getIntExtra("type", Constants.TYPE_BROWSE_AND_SELECTED);
         pictureList = (ArrayList<Picture>)getIntent().getSerializableExtra("selectedPictures");
+
+        setLeftBtnVisibility(View.VISIBLE);
         setTitle("1/" + pictureList.size());
-        selectCount = pictureList.size();
-        setTvRight1Text(selectCount + "张" + getString(R.string.text_select));
 
         ivSelect = (ImageView)findViewById(R.id.iv_select);
         ivSelect.setOnClickListener(this);
 
+        layoutBottom = (RelativeLayout)findViewById(R.id.layout_bottom);
         viewPager = (ViewPager)findViewById(R.id.view_pager);
         viewPager.setAdapter(new MyViewPagerAdapter());
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -72,6 +78,14 @@ public class BrowsePictureActivity extends BaseActivity implements View.OnClickL
 
             }
         });
+
+        //不同的浏览方式，控制不同的控件显示
+        if(browseType == Constants.TYPE_BROWSE_AND_SELECTED) {
+            selectCount = pictureList.size();
+            setTvRight1Text(selectCount + "张" + getString(R.string.text_select));
+        } else {
+            layoutBottom.setVisibility(View.GONE);
+        }
     }
 
     @Override

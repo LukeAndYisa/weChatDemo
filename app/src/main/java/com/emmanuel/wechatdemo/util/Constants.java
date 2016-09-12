@@ -10,4 +10,7 @@ public class Constants {
     public static final String BUNDLE_KEY_SHUOSHUO_POS = "SHUOSHUO_POS";
     public static final String BUNDLE_KEY_TO_USER = "TO_USER";
 
+    public static final int TYPE_BROWSE = 1; //仅仅预览图片
+    public static final int TYPE_BROWSE_AND_SELECTED = 2; //不仅预览还能选择
+
 }

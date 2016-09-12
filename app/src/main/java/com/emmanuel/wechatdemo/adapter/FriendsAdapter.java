@@ -1,6 +1,7 @@
 package com.emmanuel.wechatdemo.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -15,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.emmanuel.wechatdemo.R;
+import com.emmanuel.wechatdemo.activity.BrowsePictureActivity;
 import com.emmanuel.wechatdemo.bean.ShuoShuo;
 import com.emmanuel.wechatdemo.util.Constants;
 import com.emmanuel.wechatdemo.util.ImageLoadUtil;
@@ -127,7 +129,7 @@ public class FriendsAdapter extends BaseRecycleViewAdapter {
         }else {
             int dataIndex = position - 1;
             SSViewHolder viewHolder = (SSViewHolder) holder;
-            ShuoShuo shuoShuo = (ShuoShuo) datas.get(dataIndex);
+            final ShuoShuo shuoShuo = (ShuoShuo) datas.get(dataIndex);
             viewHolder.tvName.setText(shuoShuo.user.name);
             viewHolder.tvContent.setText(shuoShuo.content);
             if(shuoShuo.user.photoUrl == null){
@@ -165,11 +167,20 @@ public class FriendsAdapter extends BaseRecycleViewAdapter {
                             viewHolder.viewStubIvPic.setVisibility(View.VISIBLE);
                             viewHolder.viewStubMiv.setVisibility(View.GONE);
                             viewHolder.viewStubIvPic.setOnClickListener(new OnViewClickListener(viewHolder, position));
-                            ImageLoader.getInstance().displayImage(shuoShuo.picList.get(0).uri,
-                                viewHolder.viewStubIvPic, ImageLoadUtil.getOptions1());
+                            ImageLoader.getInstance().displayImage(shuoShuo.picList.get(0).uri, viewHolder.viewStubIvPic, ImageLoadUtil.getOptions1());
                         } else{
                             viewHolder.viewStubIvPic.setVisibility(View.GONE);
                             viewHolder.viewStubMiv.setVisibility(View.VISIBLE);
+                            viewHolder.viewStubMiv.setShuoShuoPosition(dataIndex);
+                            viewHolder.viewStubMiv.setOnItemClickListener(new MultiImageView.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(View view, int position, int shuoPos) {
+                                    Intent intent = new Intent(context, BrowsePictureActivity.class);
+                                    intent.putExtra("type", Constants.TYPE_BROWSE);
+                                    intent.putExtra("selectedPictures", shuoShuo.picList);
+                                    context.startActivity(intent);
+                                }
+                            });
                             List<String>list = new ArrayList<String>();
                             for(int i = 0; i<shuoShuo.picList.size(); i++){
                                 list.add(shuoShuo.picList.get(i).uri);

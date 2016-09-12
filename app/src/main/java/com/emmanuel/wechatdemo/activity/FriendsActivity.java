@@ -1,26 +1,16 @@
 package com.emmanuel.wechatdemo.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
-import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.view.Window;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -30,17 +20,14 @@ import android.widget.TextView;
 import com.emmanuel.wechatdemo.App;
 import com.emmanuel.wechatdemo.R;
 import com.emmanuel.wechatdemo.adapter.FriendsAdapter;
-import com.emmanuel.wechatdemo.adapter.RecycleViewItemListener;
 import com.emmanuel.wechatdemo.bean.Comment;
 import com.emmanuel.wechatdemo.bean.ShuoShuo;
 import com.emmanuel.wechatdemo.bean.User;
 import com.emmanuel.wechatdemo.event.ShuoShuoPushEvent;
 import com.emmanuel.wechatdemo.util.Constants;
 import com.emmanuel.wechatdemo.util.DataFactory;
-import com.emmanuel.wechatdemo.util.Helper;
 import com.emmanuel.wechatdemo.util.LogUtil;
 import com.emmanuel.wechatdemo.util.SoftKeyBoardUtil;
-import com.emmanuel.wechatdemo.util.UserUtil;
 import com.emmanuel.wechatdemo.view.DividerItemDecoration;
 
 import org.greenrobot.eventbus.EventBus;
@@ -155,7 +142,6 @@ public class FriendsActivity extends BaseActivity implements View.OnClickListene
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.addItemDecoration(new DividerItemDecoration(this,  LinearLayoutManager.VERTICAL));
         friendsAdapter = new FriendsAdapter(this, myHandler);
-//        friendsAdapter.setItemListener(listener);
         recyclerView.setAdapter(friendsAdapter);
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {

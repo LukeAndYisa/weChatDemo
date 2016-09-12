@@ -15,6 +15,7 @@ import com.emmanuel.wechatdemo.event.ShuoShuoPushEvent;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class PushShuoActivity extends BaseActivity {
     private GridLayoutManager layoutManager;
     private PictureAdapter adapter;
 
-    private List<Picture> listPic;
+    private ArrayList<Picture> listPic;
     private EditText etShuo;
 
     @Override
