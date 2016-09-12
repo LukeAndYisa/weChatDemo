@@ -34,12 +34,16 @@ import com.emmanuel.wechatdemo.adapter.RecycleViewItemListener;
 import com.emmanuel.wechatdemo.bean.Comment;
 import com.emmanuel.wechatdemo.bean.ShuoShuo;
 import com.emmanuel.wechatdemo.bean.User;
+import com.emmanuel.wechatdemo.event.ShuoShuoPushEvent;
 import com.emmanuel.wechatdemo.util.Constants;
 import com.emmanuel.wechatdemo.util.DataFactory;
 import com.emmanuel.wechatdemo.util.Helper;
 import com.emmanuel.wechatdemo.util.SoftKeyBoardUtil;
 import com.emmanuel.wechatdemo.util.UserUtil;
 import com.emmanuel.wechatdemo.view.DividerItemDecoration;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -132,6 +136,8 @@ public class FriendsActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void initView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_friends);
+        EventBus.getDefault().register(this);
+
         setTitle(getString(R.string.title_friends));
         setLeftBtnVisibility(View.VISIBLE);
         setRightRes(R.mipmap.icon_camera);
@@ -222,8 +228,7 @@ public class FriendsActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        if ()
-//        etInput.getViewTreeObserver().removeOnGlobalLayoutListener(keyboardLayoutListener);
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -255,4 +260,12 @@ public class FriendsActivity extends BaseActivity implements View.OnClickListene
         Intent intent = new Intent(FriendsActivity.this, PhotoSelectActivity.class);
         startActivity(intent);
     }
+
+    @Subscribe
+    public void onEventMainThread(ShuoShuoPushEvent event) {
+        ShuoShuo newShuoshuo = event.getMySS();
+        listSS.add(0, newShuoshuo);
+        friendsAdapter.notifyDataSetChanged();
+    }
+
 }

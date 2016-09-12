@@ -1,5 +1,7 @@
 apply plugin: 'com.android.application'
 
+def logFlag = true
+
 android {
     compileSdkVersion 24
     buildToolsVersion "24.0.1"
@@ -10,6 +12,12 @@ android {
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
+
+        if (logFlag) {
+            buildConfigField 'boolean', 'logFlag', 'true'
+        } else {
+            buildConfigField 'boolean', 'logFlag', 'false'
+        }
     }
     buildTypes {
         release {
@@ -26,4 +34,5 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:24.0.0'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile 'org.greenrobot:eventbus:3.0.0'
 }

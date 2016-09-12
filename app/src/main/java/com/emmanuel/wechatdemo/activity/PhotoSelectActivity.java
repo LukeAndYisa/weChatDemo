@@ -5,7 +5,6 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
-import android.opengl.Visibility;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -18,9 +17,12 @@ import android.widget.TextView;
 import com.emmanuel.wechatdemo.R;
 import com.emmanuel.wechatdemo.adapter.PictureAdapter;
 import com.emmanuel.wechatdemo.bean.Picture;
+import com.emmanuel.wechatdemo.event.BrowsePictureEvent;
+import com.emmanuel.wechatdemo.event.DefaultEvent;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
-import java.io.Serializable;
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -38,11 +40,11 @@ public class PhotoSelectActivity extends BaseActivity implements View.OnClickLis
     private TextView tvLocalPic, tvLookUp;
     private GridLayoutManager layoutManager;
 
-    private int picCount = 0;
-
     @Override
     protected void initView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_photo_select);
+        EventBus.getDefault().register(this);
+
         setTitle(getString(R.string.title_pic_select));
         setTvRight1Text(getString(R.string.text_done));
         setLeftBtnVisibility(View.VISIBLE);
@@ -97,7 +99,6 @@ public class PhotoSelectActivity extends BaseActivity implements View.OnClickLis
                     setTvRight1Text("(" + adapter.getSelectedPicPosition().size() + "/9)完成");
             }
         });
-//        adapter.setDatas(listPic);
         recyclerView.setAdapter(adapter);
         new LoadLocalImageTask().execute();
     }
@@ -144,6 +145,29 @@ public class PhotoSelectActivity extends BaseActivity implements View.OnClickLis
 
     }
 
+    @Override
+    protected void onTextRight1() {
+        super.onTextRight1();
+
+    }
+
+    public void onEventMainThread(DefaultEvent event){
+        int type = event.getIntType();
+        if(type == DefaultEvent.CLOSE_ACTIVITY)
+            this.finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    /**
+     * 通过ContentResolver去获取本地所有PNG JPEG的图片，
+     * 图片大小必须大于100kb，否则会找出很多很小的图标，
+     * 并且按照图片时间先后顺序排序
+     */
     class LoadLocalImageTask extends AsyncTask<Object, Object, Object> {
 
         private ProgressDialog dialog;
@@ -184,7 +208,6 @@ public class PhotoSelectActivity extends BaseActivity implements View.OnClickLis
                 Picture picture = new Picture();
                 picture.uri = Uri.withAppendedPath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, origId + "").toString();
                 listPic.add(picture);
-//                c.moveToPosition(i);
                 i++;
             }
             c.close();
