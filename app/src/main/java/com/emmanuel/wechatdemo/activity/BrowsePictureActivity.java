@@ -17,6 +17,7 @@ import com.emmanuel.wechatdemo.R;
 import com.emmanuel.wechatdemo.bean.Picture;
 import com.emmanuel.wechatdemo.event.DefaultEvent;
 import com.emmanuel.wechatdemo.util.Constants;
+import com.emmanuel.wechatdemo.util.ImageLoadUtil;
 import com.emmanuel.wechatdemo.view.PinchImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -130,7 +131,7 @@ public class BrowsePictureActivity extends BaseActivity implements View.OnClickL
             for(int i=0; i<pictureList.size(); i++){
                 View view = inflater.inflate(R.layout.view_browse_picture, null);
                 PinchImageView imageView = (PinchImageView)view.findViewById(R.id.iv_picture);
-                ImageLoader.getInstance().displayImage(pictureList.get(i).uri, imageView);
+                ImageLoader.getInstance().displayImage(pictureList.get(i).uri, imageView, ImageLoadUtil.getOptions1());
                 mListViews.add(view);
             }
         }

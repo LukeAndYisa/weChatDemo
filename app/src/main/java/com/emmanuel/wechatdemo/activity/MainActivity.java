@@ -8,6 +8,7 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import com.emmanuel.wechatdemo.R;
+import com.emmanuel.wechatdemo.fragment.ContactsFragment;
 import com.emmanuel.wechatdemo.fragment.FindFragment;
 import com.emmanuel.wechatdemo.view.TabLayout;
 
@@ -49,7 +50,7 @@ public class MainActivity extends BaseActivity {
                     fragment = new FindFragment() ;
                     break ;
                 case 1:
-                    fragment = new FindFragment();
+                    fragment = new ContactsFragment();
                     break ;
                 case 2:
                     fragment = new FindFragment();

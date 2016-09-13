@@ -38,4 +38,18 @@ public class ImageLoadUtil {
                 .build();
         return options;
     }
+
+    public static DisplayImageOptions getOptions3() {
+        options = new DisplayImageOptions.Builder()
+                .showImageOnLoading(R.drawable.image_load_error)
+                .showImageForEmptyUri(R.drawable.image_load_error)
+                .showImageOnFail(R.drawable.image_load_error)
+                .cacheInMemory(false)
+                .cacheOnDisk(false)
+                .considerExifParams(true)
+                .bitmapConfig(Bitmap.Config.RGB_565)
+                // .displayer(new RoundedBitmapDisplayer(20))
+                .build();
+        return options;
+    }
 }
