@@ -21,14 +21,15 @@ public class IndexView extends View{
 
     private static final String TAG = "IndexView";
 
-    public static final String[] INDEX_KEY = {"↑","A", "B", "C", "D", "E", "F", "G", "H", "I",
-            "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V",
+    public static final String[] INDEX_KEY = {"↑","A", "B", "C", "D", "E", "F", "G",
+            "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V",
             "W", "X", "Y", "Z", "#"};
     private Paint paint = new Paint();
     private int myHeight = 0;
     private int myWidth = 0;
 
     private OnIndexListener onIndexListener;
+    private int preIndex = -1;
 
     public IndexView(Context context) {
         super(context);
@@ -92,10 +93,11 @@ public class IndexView extends View{
         } else if(event.getAction() == MotionEvent.ACTION_MOVE){
             int y = (int)event.getY();
             int index = calculateIndex(y);
-            LogUtil.logD(TAG, "index = " + index + "  word = " + INDEX_KEY[index]);
-            if(onIndexListener != null){
+//            LogUtil.logD(TAG, "index = " + index + "  word = " + INDEX_KEY[index]);
+            if(onIndexListener != null && preIndex != index && index >= 0 && index < INDEX_KEY.length){
                 onIndexListener.onSelectedIndex(index, INDEX_KEY[index]);
             }
+            preIndex = index;
         }
         return super.onTouchEvent(event);
     }

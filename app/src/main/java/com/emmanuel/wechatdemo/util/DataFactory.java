@@ -165,4 +165,40 @@ public class DataFactory {
         return COMMENTS[index];
     }
 
+    public static List<User> createFriends(int num){
+        List<User>listMyFriends = new ArrayList<>();
+        for(int i=0; i<num; i++){
+            User friend = createUser();
+            listMyFriends.add(friend);
+        }
+
+        User user = new User();
+        user.name = "张三";
+        user.photoUrl = PHOTO_URL[0];
+
+        User user1 = new User();
+        user1.name = "李四";
+        user1.photoUrl = PHOTO_URL[1];
+
+        User user2 = new User();
+        user2.name = "王五";
+        user2.photoUrl = PHOTO_URL[2];
+
+        User user3 = new User();
+        user3.name = "马云";
+        user3.photoUrl = PHOTO_URL[3];
+
+        User user4 = new User();
+        user4.name = "乔布斯";
+        user4.photoUrl = PHOTO_URL[4];
+
+//        listMyFriends.add(user);
+//        listMyFriends.add(user1);
+//        listMyFriends.add(user2);
+//        listMyFriends.add(user3);
+//        listMyFriends.add(user4);
+
+        return listMyFriends;
+    }
+
 }
