@@ -5,6 +5,12 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <!--视频录制 需要这两个权限-->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <!-- SDCard中创建与删除文件权限 -->
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
 
     <application
         android:name=".App"
@@ -37,6 +43,11 @@
         <activity
             android:screenOrientation="portrait"
             android:name=".activity.PushShuoActivity"/>
+        <activity android:name=".activity.VideoRecordActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.PlayVideoActivity"
+            android:screenOrientation="portrait"/>
+
     </application>
 
 </manifest>

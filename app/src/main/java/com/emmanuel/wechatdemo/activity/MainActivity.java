@@ -1,5 +1,6 @@
 package com.emmanuel.wechatdemo.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -40,6 +41,9 @@ public class MainActivity extends BaseActivity {
         mViewPager.setAdapter(new PageAdapter(getSupportFragmentManager()));
         mTabView = (TabLayout) findViewById(R.id.activity_main_tablayout) ;
         mTabView.setViewPager(mViewPager);
+
+        Intent intent = new Intent(this, PlayVideoActivity.class);
+        startActivity(intent);
     }
 
     private Fragment getFragment(int position){
