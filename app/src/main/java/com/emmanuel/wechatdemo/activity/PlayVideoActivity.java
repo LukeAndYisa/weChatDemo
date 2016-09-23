@@ -4,12 +4,15 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.emmanuel.wechatdemo.R;
 import com.emmanuel.wechatdemo.util.ToastUtil;
+import com.emmanuel.wechatdemo.view.VideoTextureView;
 
 import java.io.File;
 
@@ -21,16 +24,21 @@ public class PlayVideoActivity extends BaseActivity {
     private static final String TAG = "PlayVideoActivity";
 
     private VideoView videoView;
+    private VideoTextureView videoTextureView;
+    private ImageView ivTip;
 
     @Override
     protected void initView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_play_video);
         setTitle("视频播放");
+//        initVideoView();
+        initTextureView();
+    }
+
+    private void initVideoView() {
         videoView = (VideoView) findViewById(R.id.video_view);
-//        videoFullScreen();
         File file = new File("/sdcard/videocapture_example.mp4"); // 获取SD卡上要播放的文件
         if(file.exists()) {
-            Log.d(TAG, "path = " + file.getAbsolutePath() + "  size = " + file.length());
             videoView.setVideoPath(file.getAbsolutePath());
             videoView.requestFocus(); // 让VideoView获得焦点
             videoView.start();
@@ -50,6 +58,22 @@ public class PlayVideoActivity extends BaseActivity {
                 // 发生错误重新播放
                 ToastUtil.showMessage("播放出错", Toast.LENGTH_SHORT, true);
                 return false;
+            }
+        });
+    }
+
+    private void initTextureView() {
+        videoTextureView = (VideoTextureView)findViewById(R.id.video_texture_view);
+        ivTip = (ImageView)findViewById(R.id.iv_play);
+        videoTextureView.setIvTip(ivTip);
+        videoTextureView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!videoTextureView.getPlayStatus())
+                    videoTextureView.startMediaPlayer();
+                else{
+                    videoTextureView.stopMediaPlayer();
+                }
             }
         });
     }

@@ -14,6 +14,7 @@ public class App extends Application {
 
     private static App instance;
     private static User user;
+    public static final String videoPath = "file:///android_asset/test.mp4";
 
     public static App getInstance() {
         return instance;

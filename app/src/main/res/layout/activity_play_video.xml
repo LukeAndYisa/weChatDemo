@@ -9,8 +9,27 @@
 
     <VideoView
         android:id="@+id/video_view"
-        android:layout_centerInParent="true"
         android:layout_width="match_parent"
         android:layout_height="300dp" />
+
+    <RelativeLayout
+        android:layout_below="@+id/video_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <com.emmanuel.wechatdemo.view.VideoTextureView
+            android:id="@+id/video_texture_view"
+            android:layout_width="150dp"
+            android:background="@color/bg_gray_light"
+            android:layout_height="110dp" />
+
+        <ImageView
+            android:id="@+id/iv_play"
+            android:src="@mipmap/icon_play"
+            android:layout_centerInParent="true"
+            android:layout_width="40dp"
+            android:layout_height="40dp" />
+
+    </RelativeLayout>
 
 </RelativeLayout>

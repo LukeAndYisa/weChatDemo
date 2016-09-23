@@ -1,5 +1,6 @@
 package com.emmanuel.wechatdemo.util;
 
+import com.emmanuel.wechatdemo.App;
 import com.emmanuel.wechatdemo.R;
 import com.emmanuel.wechatdemo.bean.Comment;
 import com.emmanuel.wechatdemo.bean.Picture;
@@ -73,6 +74,13 @@ public class DataFactory {
     public static List<ShuoShuo> createShuoShuo(int size){
 
         List<ShuoShuo>list = new ArrayList<>();
+        ShuoShuo s = new ShuoShuo();
+        s.user = createUser();
+        s.content = createContent();
+        s.zanList = getZans();
+        s.commentList = getCommentList();
+        s.videoPath = App.videoPath;
+        list.add(s);
         for (int i=0; i<size; i++){
             ShuoShuo ss = new ShuoShuo();
             ss.user = createUser();

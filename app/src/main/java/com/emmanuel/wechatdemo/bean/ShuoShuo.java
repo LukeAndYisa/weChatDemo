@@ -1,5 +1,7 @@
 package com.emmanuel.wechatdemo.bean;
 
+import com.emmanuel.wechatdemo.App;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,5 +18,6 @@ public class ShuoShuo {
     public ArrayList<Picture> picList; //照片
     public List<Comment>commentList; //评论
     public boolean hasZan = false; //
+    public String videoPath;
 
 }

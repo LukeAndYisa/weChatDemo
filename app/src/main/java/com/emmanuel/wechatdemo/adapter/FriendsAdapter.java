@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +26,7 @@ import com.emmanuel.wechatdemo.view.ColorFilterImageView;
 import com.emmanuel.wechatdemo.view.CommentLinearLayout;
 import com.emmanuel.wechatdemo.view.CommentPopupWindows;
 import com.emmanuel.wechatdemo.view.MultiImageView;
+import com.emmanuel.wechatdemo.view.VideoTextureView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
@@ -96,9 +98,12 @@ public class FriendsAdapter extends BaseRecycleViewAdapter {
         } else {
             if(position >= datas.size())
                 return TYPE_CONTENT_NORMAL;
-            ShuoShuo shuoShuo = (ShuoShuo) datas.get(position);
+            ShuoShuo shuoShuo = (ShuoShuo) datas.get(position - 1);
             if(shuoShuo.picList != null && shuoShuo.picList.size() >0){
                 return TYPE_CONTENT_PICTURE;
+            }
+            if(!TextUtils.isEmpty(shuoShuo.videoPath)){
+                return TYPE_CONTENT_VIDEO;
             }
             return TYPE_CONTENT_NORMAL;
         }
@@ -161,33 +166,53 @@ public class FriendsAdapter extends BaseRecycleViewAdapter {
             }
 
             if(getItemViewType(position) == TYPE_CONTENT_PICTURE){
-                if(shuoShuo.picList != null){
-                    if(shuoShuo.picList.size() > 0){
-                        if(shuoShuo.picList.size() == 1){
-                            viewHolder.viewStubIvPic.setVisibility(View.VISIBLE);
-                            viewHolder.viewStubMiv.setVisibility(View.GONE);
-                            viewHolder.viewStubIvPic.setOnClickListener(new OnViewClickListener(viewHolder, position));
-                            ImageLoader.getInstance().displayImage(shuoShuo.picList.get(0).uri, viewHolder.viewStubIvPic, ImageLoadUtil.getOptions1());
-                        } else{
-                            viewHolder.viewStubIvPic.setVisibility(View.GONE);
-                            viewHolder.viewStubMiv.setVisibility(View.VISIBLE);
-                            viewHolder.viewStubMiv.setShuoShuoPosition(dataIndex);
-                            viewHolder.viewStubMiv.setOnItemClickListener(new MultiImageView.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(View view, int position, int shuoPos) {
-                                    Intent intent = new Intent(context, BrowsePictureActivity.class);
-                                    intent.putExtra("type", Constants.TYPE_BROWSE);
-                                    intent.putExtra("selectedPictures", shuoShuo.picList);
-                                    context.startActivity(intent);
-                                }
-                            });
-                            List<String>list = new ArrayList<String>();
-                            for(int i = 0; i<shuoShuo.picList.size(); i++){
-                                list.add(shuoShuo.picList.get(i).uri);
-                            }
-                            ((SSViewHolder) holder).viewStubMiv.setList(list);
+                initPictureLayout(viewHolder, dataIndex, shuoShuo, position);
+            } else if(getItemViewType(position) == TYPE_CONTENT_VIDEO){
+                initVideoLayout(viewHolder, dataIndex, shuoShuo, position);
+            }
+        }
+    }
+
+    private void initVideoLayout(final SSViewHolder viewHolder, int dataIndex, ShuoShuo shuoShuo, int position) {
+        viewHolder.videoTextureView.setVideoPath(shuoShuo.videoPath);
+        viewHolder.videoTextureView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!viewHolder.videoTextureView.getPlayStatus())
+                    viewHolder.videoTextureView.startMediaPlayer();
+                else{
+                    viewHolder.videoTextureView.stopMediaPlayer();
+                }
+            }
+        });
+    }
+
+    private void initPictureLayout(SSViewHolder viewHolder, final int dataIndex, final ShuoShuo shuoShuo, int position){
+        if(shuoShuo.picList != null){
+            if(shuoShuo.picList.size() > 0){
+                if(shuoShuo.picList.size() == 1){
+                    viewHolder.viewStubIvPic.setVisibility(View.VISIBLE);
+                    viewHolder.viewStubMiv.setVisibility(View.GONE);
+                    viewHolder.viewStubIvPic.setOnClickListener(new OnViewClickListener(viewHolder, position));
+                    ImageLoader.getInstance().displayImage(shuoShuo.picList.get(0).uri, viewHolder.viewStubIvPic, ImageLoadUtil.getOptions1());
+                } else{
+                    viewHolder.viewStubIvPic.setVisibility(View.GONE);
+                    viewHolder.viewStubMiv.setVisibility(View.VISIBLE);
+                    viewHolder.viewStubMiv.setShuoShuoPosition(dataIndex);
+                    viewHolder.viewStubMiv.setOnItemClickListener(new MultiImageView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(View view, int position, int shuoPos) {
+                            Intent intent = new Intent(context, BrowsePictureActivity.class);
+                            intent.putExtra("type", Constants.TYPE_BROWSE);
+                            intent.putExtra("selectedPictures", shuoShuo.picList);
+                            context.startActivity(intent);
                         }
+                    });
+                    List<String>list = new ArrayList<String>();
+                    for(int i = 0; i<shuoShuo.picList.size(); i++){
+                        list.add(shuoShuo.picList.get(i).uri);
                     }
+                    viewHolder.viewStubMiv.setList(list);
                 }
             }
         }
@@ -226,6 +251,10 @@ public class FriendsAdapter extends BaseRecycleViewAdapter {
         public MultiImageView viewStubMiv;
         public View divider1;
 
+        //视频部分
+        public ImageView ivPlay;
+        public VideoTextureView videoTextureView;
+
         public SSViewHolder(View itemView, int itemType) {
             super(itemView);
             if (itemType == TYPE_HEAD){
@@ -246,10 +275,18 @@ public class FriendsAdapter extends BaseRecycleViewAdapter {
                 ivComment = (ImageView) itemView.findViewById(R.id.btn_comment);
                 viewStub = (ViewStub)itemView.findViewById(R.id.viewStub);
                 if(itemType == TYPE_CONTENT_PICTURE){
+                    //显示图片
                     viewStub.setLayoutResource(R.layout.view_stub_picture);
                     viewStub.inflate();
                     viewStubMiv = (MultiImageView) itemView.findViewById(R.id.miv_picture);
                     viewStubIvPic = (ColorFilterImageView)itemView.findViewById(R.id.iv_picture);
+                } else if(itemType == TYPE_CONTENT_VIDEO){
+                    //显示视频
+                    viewStub.setLayoutResource(R.layout.view_stub_video);
+                    viewStub.inflate();
+                    videoTextureView = (VideoTextureView)itemView.findViewById(R.id.video_texture_view);
+                    ivPlay = (ImageView)itemView.findViewById(R.id.iv_play);
+                    videoTextureView.setIvTip(ivPlay);
                 }
                 divider1 = itemView.findViewById(R.id.divider_1);
             }

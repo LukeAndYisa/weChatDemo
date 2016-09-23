@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_below="@+id/video_view"
+        android:background="@color/colorPrimary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <com.emmanuel.wechatdemo.view.VideoTextureView
+            android:id="@+id/video_texture_view"
+            android:layout_width="150dp"
+            android:background="@color/bg_gray_light"
+            android:layout_height="110dp" />
+
+        <ImageView
+            android:id="@+id/iv_play"
+            android:src="@mipmap/icon_play"
+            android:layout_centerInParent="true"
+            android:layout_width="40dp"
+            android:layout_height="40dp" />
+
+    </RelativeLayout>
+
+</LinearLayout>

@@ -42,8 +42,8 @@ public class MainActivity extends BaseActivity {
         mTabView = (TabLayout) findViewById(R.id.activity_main_tablayout) ;
         mTabView.setViewPager(mViewPager);
 
-        Intent intent = new Intent(this, PlayVideoActivity.class);
-        startActivity(intent);
+//        Intent intent = new Intent(this, PlayVideoActivity.class);
+//        startActivity(intent);
     }
 
     private Fragment getFragment(int position){
