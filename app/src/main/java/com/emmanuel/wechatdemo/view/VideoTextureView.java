@@ -96,6 +96,7 @@ public class VideoTextureView extends TextureView implements TextureView.Surface
 //            mediaPlayer.setDataSource(fileDescriptor.getFileDescriptor());
             mediaPlayer.setSurface(surface);
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            mediaPlayer.setVolume(0, 0); //设置左右音道的声音为0
             mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                 @Override
                 public void onPrepared(MediaPlayer mp){

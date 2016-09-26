@@ -12,9 +12,9 @@
 
         <com.emmanuel.wechatdemo.view.VideoTextureView
             android:id="@+id/video_texture_view"
-            android:layout_width="150dp"
+            android:layout_width="200dp"
             android:background="@color/bg_gray_light"
-            android:layout_height="110dp" />
+            android:layout_height="160dp" />
 
         <ImageView
             android:id="@+id/iv_play"
