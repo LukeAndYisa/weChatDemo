@@ -145,9 +145,9 @@ public class VideoTextureView extends TextureView implements TextureView.Surface
     }
 
     public void onVideoTextureViewDestroy(){
+        isPlaying = false;
         if(mediaPlayer != null){
-            mediaPlayer.stop();
-            mediaPlayer.reset();
+            stopMediaPlayer();
             mediaPlayer.release();
         }
     }
