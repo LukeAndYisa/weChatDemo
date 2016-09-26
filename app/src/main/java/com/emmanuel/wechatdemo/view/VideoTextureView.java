@@ -13,6 +13,7 @@ import android.view.TextureView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.emmanuel.wechatdemo.App;
 import com.emmanuel.wechatdemo.R;
 import com.emmanuel.wechatdemo.util.ToastUtil;
 
@@ -81,19 +82,17 @@ public class VideoTextureView extends TextureView implements TextureView.Surface
             return;
         }
         try {
-//            final File file = new File(videoPath);
-//            AssetFileDescriptor fileDescriptor = getContext().getAssets().op("test.mp4");
-//            if(!file.exists()){//文件不存在
-//                ToastUtil.showMessage("视频不存在", Toast.LENGTH_SHORT, true);
-//                return;
-//            }
-//            if(fileDescriptor == null){
-//                ToastUtil.showMessage("视频不存在", Toast.LENGTH_SHORT, true);
-//                return;
-//            }
-            mediaPlayer = MediaPlayer.create(getContext(), R.raw.test);
-//            mediaPlayer.setDataSource(file.getAbsolutePath());
-//            mediaPlayer.setDataSource(fileDescriptor.getFileDescriptor());
+            if(videoPath.equals(App.videoPath))
+                mediaPlayer = MediaPlayer.create(getContext(), R.raw.test);
+            else {
+                final File file = new File(videoPath);
+                if (!file.exists()) {//文件不存在
+                    ToastUtil.showMessage("视频不存在", Toast.LENGTH_SHORT, true);
+                    return;
+                }
+                mediaPlayer = new MediaPlayer();
+                mediaPlayer.setDataSource(file.getAbsolutePath());
+            }
             mediaPlayer.setSurface(surface);
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             mediaPlayer.setVolume(0, 0); //设置左右音道的声音为0
@@ -125,7 +124,7 @@ public class VideoTextureView extends TextureView implements TextureView.Surface
     }
 
     public void stopMediaPlayer(){
-        if(mediaPlayer != null && mediaPlayer.isPlaying()) {
+        if(mediaPlayer != null && isPlaying) {
             mediaPlayer.stop();
             mediaPlayer.reset();
         }

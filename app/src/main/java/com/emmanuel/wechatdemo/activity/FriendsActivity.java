@@ -29,6 +29,7 @@ import com.emmanuel.wechatdemo.util.DataFactory;
 import com.emmanuel.wechatdemo.util.LogUtil;
 import com.emmanuel.wechatdemo.util.SoftKeyBoardUtil;
 import com.emmanuel.wechatdemo.view.DividerItemDecoration;
+import com.emmanuel.wechatdemo.view.PushShuoDialog;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -244,8 +245,22 @@ public class FriendsActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void onBtnRight1() {
         super.onBtnRight1();
-        Intent intent = new Intent(FriendsActivity.this, PhotoSelectActivity.class);
-        startActivity(intent);
+        final PushShuoDialog pushShuoDialog = new PushShuoDialog();
+        pushShuoDialog.setItemClickLitener(new PushShuoDialog.ItemClickLitener() {
+            @Override
+            public void onClickItem(int position) {
+                if(position == 1){
+                    Intent intent = new Intent(FriendsActivity.this, PhotoSelectActivity.class);
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent(FriendsActivity.this, VideoRecordActivity.class);
+                    startActivity(intent);
+                }
+                pushShuoDialog.dismiss();
+            }
+        });
+        pushShuoDialog.show(getSupportFragmentManager(), "PushShuoDialog");
+
     }
 
     @Subscribe

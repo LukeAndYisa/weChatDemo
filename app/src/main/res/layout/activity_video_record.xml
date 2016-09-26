@@ -4,11 +4,21 @@
     android:background="@color/colorPrimary"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <include
+        layout="@layout/toolbar"/>
     
     <SurfaceView
         android:id="@+id/camera_view"
         android:layout_width="match_parent"
         android:layout_height="260dp" />
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:max="10"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="3dp" />
 
     <LinearLayout
         android:orientation="vertical"
