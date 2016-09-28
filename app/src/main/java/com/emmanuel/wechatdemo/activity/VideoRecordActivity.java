@@ -1,6 +1,5 @@
 package com.emmanuel.wechatdemo.activity;
 
-import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.hardware.Camera;
 import android.media.CamcorderProfile;
@@ -25,6 +24,7 @@ import com.emmanuel.wechatdemo.util.ToastUtil;
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -66,7 +66,7 @@ public class VideoRecordActivity extends BaseActivity implements View.OnClickLis
         setContentView(R.layout.activity_video_record);
         setTitle("视频录制");
         setTvRight1Text("完成");
-        recorder = new MediaRecorder();
+
         initRecorder();
         initViews();
     }
@@ -92,6 +92,7 @@ public class VideoRecordActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void initRecorder() {
+        recorder = new MediaRecorder();
         camera = Camera.open(Camera.CameraInfo.CAMERA_FACING_BACK);
         if (camera != null) {
             camera.setDisplayOrientation(90);//摄像图旋转90度
@@ -202,6 +203,8 @@ public class VideoRecordActivity extends BaseActivity implements View.OnClickLis
         shuoShuo.content = "视频测试";
         shuoShuo.videoPath = VIDEO_PATH;
         shuoShuo.user = App.getUser();
+        shuoShuo.picList = new ArrayList<>();
+        shuoShuo.commentList = new ArrayList<>();
         EventBus.getDefault().post(new ShuoShuoPushEvent(shuoShuo));
         this.finish();
     }

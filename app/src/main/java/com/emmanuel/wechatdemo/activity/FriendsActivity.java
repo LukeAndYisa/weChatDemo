@@ -2,6 +2,7 @@ package com.emmanuel.wechatdemo.activity;
 
 import android.content.Intent;
 import android.graphics.Rect;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -253,8 +254,13 @@ public class FriendsActivity extends BaseActivity implements View.OnClickListene
                     Intent intent = new Intent(FriendsActivity.this, PhotoSelectActivity.class);
                     startActivity(intent);
                 } else {
-                    Intent intent = new Intent(FriendsActivity.this, VideoRecordActivity.class);
-                    startActivity(intent);
+                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+                        Intent intent = new Intent(FriendsActivity.this, VideoRecordActivity.class);
+                        startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(FriendsActivity.this, NewVideoRecordActivity.class);
+                        startActivity(intent);
+                    }
                 }
                 pushShuoDialog.dismiss();
             }

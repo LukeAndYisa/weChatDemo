@@ -45,6 +45,8 @@
             android:name=".activity.PushShuoActivity"/>
         <activity android:name=".activity.VideoRecordActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".activity.NewVideoRecordActivity"
+            android:screenOrientation="portrait"/>
         <activity android:name=".activity.PlayVideoActivity"
             android:screenOrientation="portrait"/>
 
