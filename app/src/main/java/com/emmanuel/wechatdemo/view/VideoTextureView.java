@@ -54,7 +54,6 @@ public class VideoTextureView extends TextureView implements TextureView.Surface
     public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture, int i, int i1) {
         surface = new Surface(surfaceTexture);
         isSurfaceTextureAvailable = true;
-//        startMediaPlayer();
     }
 
     @Override
