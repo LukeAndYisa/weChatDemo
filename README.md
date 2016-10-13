@@ -5,7 +5,7 @@
 <img src="https://github.com/zx391324751/weChatDemo/blob/master/pic/demo.gif" width = "347" height = "392" alt="554" align=center />
 
 ##新增视频播放和录制功能(录制功能目前仅支持5.0以下的手机)
-<img src="https://github.com/zx391324751/weChatDemo/blob/master/pic/demo.gif" width = "347" height = "392" alt="554" align=center />
+<img src="https://github.com/zx391324751/weChatDemo/blob/master/pic/1.png" width = "347" height = "392" alt="554" align=center />
 
 ##1.通讯录
 
